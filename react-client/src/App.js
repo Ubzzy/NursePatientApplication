@@ -1,7 +1,10 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Header from './components/Header';
+
 function App() {
   return (
     <>
-      <h1>Patient-Nurse Application</h1>
+      <Header />
     </>
   );
 }
