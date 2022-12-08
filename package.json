@@ -1,0 +1,37 @@
+{
+  "name": "comp308project",
+  "version": "1.0.0",
+  "description": "AI Web App using MERN architecture",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ubzzy/COMP308Project.git"
+  },
+  "author": "Group 4",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ubzzy/COMP308Project/issues"
+  },
+  "homepage": "https://github.com/Ubzzy/COMP308Project#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.1",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "express-graphql": "^0.12.0",
+    "express-session": "^1.17.3",
+    "graphql": "^16.6.0",
+    "graphql-date": "^1.0.3",
+    "jsonwebtoken": "^8.5.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^6.8.0",
+    "morgan": "^1.10.0"
+  }
+}
