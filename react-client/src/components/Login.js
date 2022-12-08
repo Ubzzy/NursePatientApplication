@@ -17,7 +17,7 @@ const LOGGED_IN_USER = gql`
 `;
 
 function Login() {
-  let navigate = useNavigate()
+  // let navigate = useNavigate()
 
   // Hook to login student using apollo's useMutation
   const [loginUser, { data: loginData, loading: loginLoading, error: loginError }] = useMutation(LOGIN_USER);
@@ -32,10 +32,10 @@ function Login() {
 
   //state variable for the screen, admin or user
   const [screen, setScreen] = useState('auth');
-  //store input field data, user name and password
+  // //store input field data, user name and password
   let [email, setEmail] = useState('');
   let [password, setPassword] = useState('');
-  let [message, setMessage] = useState('');
+  // let [message, setMessage] = useState('');
   //
   //send email and password to the server for initial authentication
   const authenticateUser = async () => {
@@ -62,32 +62,32 @@ function Login() {
       console.log(error);
     }
 
-  }; //
+  }; 
 
-  //check if the user already logged-in
-  const readCookie = () => {
-    try {
-      console.log('--- in readCookie function ---');
+  // //check if the user already logged-in
+  // const readCookie = () => {
+  //   try {
+  //     console.log('--- in readCookie function ---');
 
-      isLoggedIn()
+  //     isLoggedIn()
 
-    } catch (e) {
-      setScreen('auth');
-      console.log('error: ', e);
-    }
-  };
+  //   } catch (e) {
+  //     setScreen('auth');
+  //     console.log('error: ', e);
+  //   }
+  // };
 
-  useEffect(() => {
-    readCookie();
-    if (isLoggedInData) {
-      console.log('setting screen: ' + isLoggedInData)
-      setScreen(isLoggedInData.isLoggedIn)
-    }
-  }, []);
+  // useEffect(() => {
+  //   readCookie();
+  //   if (isLoggedInData) {
+  //     console.log('setting screen: ' + isLoggedInData)
+  //     setScreen(isLoggedInData.isLoggedIn)
+  //   }
+  // }, []);
 
-  if (loginLoading || isLoggedInLoading) return 'Loading...';
-  if (loginError) return `Error logging in: ${loginError.message}`;
-  if (isLoggedInError) return `Error: ${isLoggedInError.message}`;
+  // if (loginLoading || isLoggedInLoading) return 'Loading...';
+  // if (loginError) return `Error logging in: ${loginError.message}`;
+  // if (isLoggedInError) return `Error: ${isLoggedInError.message}`;
 
   return (
     <>
