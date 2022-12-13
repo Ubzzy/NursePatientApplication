@@ -25,10 +25,10 @@ module.exports = function () {
     }
 
     // Use the 'body-parser' and 'method-override' middleware functions
-	app.use(bodyParser.urlencoded({
-		extended: true
-	}));
-	app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({
+        extended: true
+    }));
+    app.use(bodyParser.json());
 
     app.use(cookies());
 
