@@ -1,7 +1,13 @@
-import React from 'react'
+import React from "react";
+import Header from "./Header";
 
-export default function Home() {
-  return (
-    <h1 className='text-center m-5'>Welcome to the Home Page</h1>
-  )
+function Home() {
+    return (
+        <>
+            <Header />
+            <h1 className="text-center m-5">Welcome to the Home Page</h1>
+        </>
+    );
 }
+
+export default Home;
