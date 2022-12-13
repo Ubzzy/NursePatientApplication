@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { gql, useMutation } from "@apollo/client";
-import { useNavigate } from "react-router-dom";
+import React, {useState, useEffect} from "react";
+import {gql, useMutation} from "@apollo/client";
+import {useNavigate} from "react-router-dom";
 
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -29,7 +29,7 @@ function Login() {
     // Hook to login student using apollo's useMutation
     const [
         loginUser,
-        { data: loginData, loading: loginLoading, error: loginError },
+        {data: loginData, loading: loginLoading, error: loginError},
     ] = useMutation(LOGIN_USER);
 
     // Hook to check login status using apollo's useMutation
@@ -60,8 +60,13 @@ function Login() {
             });
 
             if (loginData) {
-                window.localStorage.setItem("user", JSON.stringify(loginData));
-                navigate("/home");
+                window.localStorage.setItem("user", JSON.stringify(loginData.loginUser));
+                console.log(loginData.loginUser)
+                if (loginData.loginUser.isNurse) {
+                    navigate("/home");
+                } else {
+                    navigate("/dashboard");
+                }
             }
         } catch (error) {
             //print the error
