@@ -19,6 +19,8 @@ import TipDetails from "./components/tips/TipDetails";
 import AddTip from "./components/tips/AddTip";
 import EditTip from "./components/tips/EditTip";
 import DailyInformation from "./components/patients/DailyInformation";
+import AddPatient from "./components/nurse/AddPatient";
+import ListPatients from "./components/nurse/ListPatients";
 
 function App() {
     return (
@@ -31,6 +33,8 @@ function App() {
                     <Route path="/game-zone" element={<GameZone/>}></Route>
                     <Route path="/daily-information" element={<DailyInformation/>}></Route>
                     <Route path="/nurse" element={<NurseDashboard/>}></Route>
+                    <Route path="/addPatient" element={<AddPatient />}></Route>
+                    <Route path="/patients" element={<ListPatients />}></Route>
                     <Route path="/tips" element={<ListTips/>}></Route>
                     <Route path="/tips/details/:id" element={<TipDetails/>}></Route>
                     <Route path="/tips/add" element={<AddTip/>}></Route>
