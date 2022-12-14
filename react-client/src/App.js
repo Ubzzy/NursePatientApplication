@@ -20,8 +20,6 @@ import AddTip from "./components/tips/AddTip";
 import EditTip from "./components/tips/EditTip";
 import DailyTip from "./components/tips/DailyTip";
 import VitalInformation from "./components/patients/VitalInformation";
-import AddPatient from "./components/nurse/AddPatient";
-import ListPatients from "./components/nurse/ListPatients";
 import Covid19 from "./components/patients/Covid19";
 
 function App() {
@@ -39,8 +37,6 @@ function App() {
                     <Route path="/covid19" element={<Covid19 />}></Route>
 
                     <Route path="/nurse" element={<NurseDashboard />}></Route>
-                    <Route path="/addPatient" element={<AddPatient />}></Route>
-                    <Route path="/patients" element={<ListPatients />}></Route>
 
                     <Route path="/tips" element={<ListTips />}></Route>
                     <Route path="/tips/details/:id" element={<TipDetails />}></Route>

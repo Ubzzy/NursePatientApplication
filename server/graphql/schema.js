@@ -10,7 +10,6 @@ const moment = require('moment');
 // Mongoose model
 var User = require("../models/User");
 var Tip = require("../models/Tip");
-var Patient = require("../models/Patient")
 // Hashing password
 const bcrypt = require("bcrypt");
 // Token sessions
@@ -31,19 +30,6 @@ const userType = new GraphQLObjectType({
             email: {type: GraphQLString},
             password: {type: GraphQLString},
             isNurse: {type: GraphQLBoolean},
-            token: {type: GraphQLString},
-        };
-    },
-});
-const patientType = new GraphQLObjectType({
-    name: "patient",
-    fields: function () {
-        return {
-            _id: {type: GraphQLString},
-            bodyTemperature: {type: GraphQLString},
-            heartRate: {type: GraphQLString},
-            bloodPressure: {type: GraphQLString},
-            respiratoryRate: {type: GraphQLString},
             token: {type: GraphQLString},
         };
     },
@@ -112,32 +98,6 @@ const queryType = new GraphQLObjectType({
                     }
                     return user;
                 },
-            },
-            patient: {
-                type: patientType,
-                args: {
-                    id: {
-                        name: "_id",
-                        type: GraphQLString,
-                    },
-                },
-                resolve: function (root, params) {
-                    const patient = Patient.findById(params.id).exec();
-                    if (!patient) {
-                        throw new Error("Error");
-                    }
-                    return patient;
-                },
-            },
-            patients: {
-                type: new GraphQLList(patientType),
-                resolve: function () {
-                    const patients = Patient.find()
-                    if (!patients) {
-                        throw new Error('Patients not found')
-                    }
-                    return patients
-                }
             },
             tips: {
                 type: new GraphQLList(tipType),
@@ -255,24 +215,6 @@ const mutation = new GraphQLObjectType({
                         throw new Error('Error');
                     }
                     return tip
-                }
-            },
-            addPatient: {
-                type: patientType,
-                args: {
-                    patientId: {type: new GraphQLNonNull(GraphQLString)},
-                    bodyTemperature: {type: new GraphQLNonNull(GraphQLString)},
-                    heartRate: {type: new GraphQLNonNull(GraphQLString)},
-                    bloodPressure: {type: new GraphQLNonNull(GraphQLString)},
-                    respiratoryRate: {type: new GraphQLNonNull(GraphQLString)}
-                },
-                resolve: function (root, params, context) {
-                    const patient = new Patient(params);
-                    const newPatient = patient.save();
-                    if (!patient) {
-                        throw new Error('Error');
-                    }
-                    return patient
                 }
             },
             deleteTip: {
