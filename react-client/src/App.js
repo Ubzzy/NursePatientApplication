@@ -14,6 +14,10 @@ import Login from "./components/Login";
 import GameZone from "./components/patients/GameZone";
 import Dashboard from "./components/patients/Dashboard";
 import NurseDashboard from "./components/nurse/NurseDashboard";
+import ListTips from "./components/tips/ListTips";
+import TipDetails from "./components/tips/TipDetails";
+import AddTip from "./components/tips/AddTip";
+import EditTip from "./components/tips/EditTip";
 
 function App() {
     return (
@@ -25,6 +29,10 @@ function App() {
                     <Route path="/dashboard" element={<Dashboard />}></Route>
                     <Route path="/game-zone" element={<GameZone />}></Route>
                     <Route path="/nurse" element={<NurseDashboard />}></Route>
+                    <Route path="/tips" element={<ListTips />}></Route>
+                    <Route path="/tips/details/:id" element={<TipDetails />}></Route>
+                    <Route path="/tips/add/:id" element={<AddTip />}></Route>
+                    <Route path="/tips/edit" element={<EditTip />}></Route>
                 </Routes>
             </Router>
         </>

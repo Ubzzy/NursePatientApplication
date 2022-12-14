@@ -60,6 +60,9 @@ function Header() {
                     <Nav.Link as={Link} to="/game-zone">
                         Game Zone
                     </Nav.Link>
+                    <Nav.Link as={Link} to="/tips">
+                        Tips
+                    </Nav.Link>
                     <Nav.Link as={Link} to="/">
                         Logout
                     </Nav.Link>
