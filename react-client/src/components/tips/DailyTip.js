@@ -38,10 +38,10 @@ function DailyTip() {
     // Fetch and store tips on initial load
     useEffect(() => {
         refetch().then((result) => {
-                if (result.data) {
-                    setTips(result.data.tips)
-                }
-            })
+            if (result.data) {
+                setTips(result.data.tips)
+            }
+        })
 
     }, [])
 
@@ -49,19 +49,25 @@ function DailyTip() {
         setRandomTip()
     }, [tips]);
 
-    if (tipsLoading) {
-        return <p>Loading Tips...</p>
-    }
     if (tipsError) {
-        return <p>Error Loading Tips: ${tipsError.message}</p>
+        return <p></p>
     }
 
     // Return table of tips
     return (
         <>
             <Header/>
-            <h1 className='text-center m-2'>Tip Of The Day</h1>
-            <h2 className='text-center m-5'>{tip}</h2>
+            <div className="container">
+                {
+                    tipsLoading && <p className='text-center m-5'>Loading Tips...</p>
+                } {
+                tipsError && <p className='text-center m-5'>Error Loading Tips: ${tipsError.message}</p>
+            }<h1 className='text-center m-2'>Tip Of The Day</h1>
+                <h2 className='text-center m-5'>{tip}</h2>
+
+
+            </div>
+
         </>
     )
 }

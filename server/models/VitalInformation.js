@@ -5,6 +5,7 @@ var vitalInformation = mongoose.Schema(
     {
         cp: {type: String, required: true},
         user_id: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
+        recordDate: Date,
         trestbps: {type: String, required: true},
         chol: {type: String, required: true},
         fps: {type: String, required: true},
@@ -15,7 +16,6 @@ var vitalInformation = mongoose.Schema(
         slope: {type: String, required: true},
         thal: {type: String, required: true},
         target: {type: String, required: true},
-
     },
     {
         collection: "vitalinformation",
