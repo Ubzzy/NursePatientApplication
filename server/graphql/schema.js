@@ -177,6 +177,21 @@ const mutation = new GraphQLObjectType({
                     return tip
                 }
             },
+            deleteTip: {
+                type: tipType,
+                args: {
+                    id: {
+                        type: new GraphQLNonNull(GraphQLString)
+                    }
+                },
+                resolve(root, params) {
+                    const deleteTip = Tip.findByIdAndRemove(params.id).exec();
+                    if (!deleteTip) {
+                        throw new Error('Error while deleting tip from DB')
+                    }
+                    return deleteTip;
+                }
+            },
         };
     },
 });
