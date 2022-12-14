@@ -31,8 +31,8 @@ function App() {
                     <Route path="/nurse" element={<NurseDashboard />}></Route>
                     <Route path="/tips" element={<ListTips />}></Route>
                     <Route path="/tips/details/:id" element={<TipDetails />}></Route>
-                    <Route path="/tips/add/:id" element={<AddTip />}></Route>
-                    <Route path="/tips/edit" element={<EditTip />}></Route>
+                    <Route path="/tips/add" element={<AddTip />}></Route>
+                    <Route path="/tips/edit/:id" element={<EditTip />}></Route>
                 </Routes>
             </Router>
         </>
