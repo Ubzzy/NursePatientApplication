@@ -192,6 +192,22 @@ const mutation = new GraphQLObjectType({
                     return deleteTip;
                 }
             },
+            updateTip: {
+                type: tipType,
+                args: {
+                    _id: { name: '_id', type: new GraphQLNonNull(GraphQLString) },
+                    message: { type: new GraphQLNonNull(GraphQLString) },
+                    createdBy: { type: new GraphQLNonNull(GraphQLString) }
+
+                },
+                resolve(root, params) {
+                    return Tip.findByIdAndUpdate(params._id, {
+                        message: params.message,
+                        createdBy: params.createdBy
+                    }).then(console.log("Tip updated: " + params._id))
+                        .catch(err => next(err))
+                }
+            },
         };
     },
 });
