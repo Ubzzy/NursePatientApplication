@@ -194,7 +194,6 @@ const mutation = new GraphQLObjectType({
                         throw new Error("Error - user not found");
                     }
 
-                    console.log(user.password)
                     // check if the password is correct
                     if (bcrypt.compareSync(params.password, user.password) == false) {
                         throw new Error("Invalid password");
@@ -214,12 +213,19 @@ const mutation = new GraphQLObjectType({
 
                     // set the cookie as the token string, with a similar max age as the token
                     // here, the max age is in milliseconds
+
                     context.res.cookie("token", token, {
                         maxAge: jwtExpirySeconds * 1000,
                         httpOnly: true,
                     });
+
+
+                    userObj = user.toJSON()
+                    userObj.password = undefined
+                    userObj.token = token
+
                     //context.res.status(200).send({ screen: user.username });
-                    return user;
+                    return userObj;
                 }, //end of resolver function
             },
             // Tips mutation
@@ -303,9 +309,10 @@ const mutation = new GraphQLObjectType({
                     thal: {type: GraphQLString},
                     target: {type: GraphQLString}
                 },
-                resolve: function (root, params, context) {
+                resolve: async function (root, params, context) {
 
-                    if (!context.user || context.user.isNurse == false) {
+                    console.log(context.user)
+                    if (!context.user || context.user.isNurse == true) {
                         throw new Error('not Authorized')
                     }
 

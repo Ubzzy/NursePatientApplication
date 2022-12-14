@@ -10,6 +10,7 @@ const express = require('express'),
 
 
 let schema = require('../graphql/schema');
+const {authorization} = require("../graphql/auth");
 
 
 module.exports = function () {
@@ -41,17 +42,13 @@ module.exports = function () {
 
     //configure GraphQL to use over HTTP
     app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
-    //
-    app.use('/graphql', graphqlHTTP((request, response) => {
-        return {
-            schema: schema,
-            rootValue: global,
-            graphiql: true,
-            context: {
-                req: request,
-                res: response
-            }
-        }
+
+    const {authorization} = require("../graphql/auth");
+    app.use(authorization);
+    app.use('/graphql', cors(), graphqlHTTP({
+        schema: schema,
+        rootValue: global,
+        graphiql: true,
     }));
 
     // use HTTP verbs such as PUT or DELETE in places where the client doesn't support it.

@@ -12,8 +12,8 @@ const LOGIN_USER = gql`
             firstName
             lastName
             email
-            password
             isNurse
+            token
         }
     }
 `;
@@ -61,6 +61,7 @@ function Login() {
 
             if (loginData.data) {
                 window.localStorage.setItem("user", JSON.stringify(loginData.data.loginUser));
+                window.localStorage.setItem("token", loginData.data.loginUser.token);
                 console.log(loginData.data.loginUser)
                 if (loginData.data.loginUser.isNurse) {
                     navigate("/home");

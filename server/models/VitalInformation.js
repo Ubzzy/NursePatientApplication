@@ -18,7 +18,7 @@ var vitalInformation = mongoose.Schema(
 
     },
     {
-        collection: "dailyinformation",
+        collection: "vitalinformation",
     }
 );
 
