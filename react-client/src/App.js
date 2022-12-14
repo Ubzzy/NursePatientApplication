@@ -22,26 +22,31 @@ import DailyTip from "./components/tips/DailyTip";
 import VitalInformation from "./components/patients/VitalInformation";
 import AddPatient from "./components/nurse/AddPatient";
 import ListPatients from "./components/nurse/ListPatients";
+import Covid19 from "./components/patients/Covid19";
 
 function App() {
     return (
         <>
             <Router>
                 <Routes>
-                    <Route path="/" element={<Login/>}></Route>
+                    <Route path="/" element={<Login />}></Route>
                     {/* <Route path="/home" element={<Home/>}></Route> */}
-                    <Route path="/dashboard" element={<Dashboard/>}></Route>
-                    <Route path="/nurse-dashboard" element={<NurseDashboard/>}></Route>
-                    <Route path="/game-zone" element={<GameZone/>}></Route>
-                    <Route path="/vital-information" element={<VitalInformation/>}></Route>
-                    <Route path="/nurse" element={<NurseDashboard/>}></Route>
+                    <Route path="/dashboard" element={<Dashboard />}></Route>
+                    <Route path="/nurse-dashboard" element={<NurseDashboard />}></Route>
+
+                    <Route path="/game-zone" element={<GameZone />}></Route>
+                    <Route path="/vital-information" element={<VitalInformation />}></Route>
+                    <Route path="/covid19" element={<Covid19 />}></Route>
+
+                    <Route path="/nurse" element={<NurseDashboard />}></Route>
                     <Route path="/addPatient" element={<AddPatient />}></Route>
                     <Route path="/patients" element={<ListPatients />}></Route>
-                    <Route path="/tips" element={<ListTips/>}></Route>
-                    <Route path="/tips/details/:id" element={<TipDetails/>}></Route>
-                    <Route path="/tips/add" element={<AddTip/>}></Route>
-                    <Route path="/tips/edit/:id" element={<EditTip/>}></Route>
-                    <Route path="/daily-tip" element={<DailyTip/>}></Route>
+
+                    <Route path="/tips" element={<ListTips />}></Route>
+                    <Route path="/tips/details/:id" element={<TipDetails />}></Route>
+                    <Route path="/tips/add" element={<AddTip />}></Route>
+                    <Route path="/tips/edit/:id" element={<EditTip />}></Route>
+                    <Route path="/daily-tip" element={<DailyTip />}></Route>
                 </Routes>
             </Router>
         </>
