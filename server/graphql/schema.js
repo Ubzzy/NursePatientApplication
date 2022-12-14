@@ -1,42 +1,43 @@
-var GraphQLSchema = require("graphql").GraphQLSchema;
+var GraphQLSchema = require('graphql').GraphQLSchema;
+var GraphQLObjectType = require('graphql').GraphQLObjectType;
+var GraphQLList = require('graphql').GraphQLList;
+var GraphQLNonNull = require('graphql').GraphQLNonNull;
+var GraphQLString = require('graphql').GraphQLString;
+var GraphQLInt = require('graphql').GraphQLInt;
 
-var GraphQLObjectType = require("graphql").GraphQLObjectType;
-var GraphQLObjectType = require("graphql").GraphQLObjectType;
-var GraphQLString = require("graphql").GraphQLString;
-
+// Mongoose model
 var User = require("../models/User");
+var Tip = require("../models/Tip");
 
+// Hashing password
 const bcrypt = require("bcrypt");
+// Token sessions
 const jwt = require("jsonwebtoken");
 const { GraphQLBoolean } = require("graphql");
-const JWT_SECRET = "some_secret_key";
-const jwtExpirySeconds = 300;
+const JWT_SECRET = process.env.SECRET_KEY;
+const jwtExpirySeconds = 600000; // 10mins
 
 const userType = new GraphQLObjectType({
     name: "user",
     fields: function () {
         return {
-            _id: {
-                type: GraphQLString,
-            },
-            firstName: {
-                type: GraphQLString,
-            },
-            lastName: {
-                type: GraphQLString,
-            },
-            email: {
-                type: GraphQLString,
-            },
-            password: {
-                type: GraphQLString,
-            },
-            isNurse: {
-                type: GraphQLBoolean,
-            },
-            token: {
-                type: GraphQLString,
-            },
+            _id: { type: GraphQLString },
+            firstName: { type: GraphQLString },
+            lastName: { type: GraphQLString },
+            email: { type: GraphQLString },
+            password: { type: GraphQLString },
+            isNurse: { type: GraphQLBoolean },
+            token: { type: GraphQLString },
+        };
+    },
+});
+const tipType = new GraphQLObjectType({
+    name: "tip",
+    fields: function () {
+        return {
+            _id: { type: GraphQLString },
+            message: { type: GraphQLString },
+            createdBy: { type: GraphQLString }
         };
     },
 });
@@ -45,6 +46,16 @@ const queryType = new GraphQLObjectType({
     name: "Query",
     fields: function () {
         return {
+            users: {
+                type: new GraphQLList(userType),
+                resolve: function () {
+                    const users = User.find()
+                    if (!users) {
+                        throw new Error('Users not found')
+                    }
+                    return users
+                }
+            },
             user: {
                 type: userType,
                 args: {
@@ -59,6 +70,32 @@ const queryType = new GraphQLObjectType({
                         throw new Error("Error");
                     }
                     return user;
+                },
+            },
+            tips: {
+                type: new GraphQLList(tipType),
+                resolve: function () {
+                    const tips = Tip.find()
+                    if (!tips) {
+                        throw new Error('Tips not found')
+                    }
+                    return tips
+                }
+            },
+            tip: {
+                type: tipType,
+                args: {
+                    id: {
+                        name: "_id",
+                        type: GraphQLString,
+                    },
+                },
+                resolve: function (root, params) {
+                    const tip = Tip.findById(params.id).exec();
+                    if (!tip) {
+                        throw new Error("Error");
+                    }
+                    return tip;
                 },
             },
             //
@@ -123,6 +160,22 @@ const mutation = new GraphQLObjectType({
                     //context.res.status(200).send({ screen: user.username });
                     return user;
                 }, //end of resolver function
+            },
+            // Tips mutation
+            addTip: {
+                type: tipType,
+                args: {
+                    message: { type: new GraphQLNonNull(GraphQLString) },
+                    createdBy: { type: new GraphQLNonNull(GraphQLString) }
+                },
+                resolve: function (root, params, context) {
+                    const tip = new Tip(params);
+                    const newTip = tip.save();
+                    if (!tip) {
+                        throw new Error('Error');
+                    }
+                    return tip
+                }
             },
         };
     },
