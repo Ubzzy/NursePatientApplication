@@ -200,6 +200,25 @@ const mutation = new GraphQLObjectType({
                     //context.res.status(200).send({ screen: user.username });
                     return userObj;
                 }, //end of resolver function
+            }, 
+            // users mutation
+            addUser: {
+                type: userType,
+                args: {
+                    firstName: { type: new GraphQLNonNull(GraphQLString) },
+                    lastName: { type: new GraphQLNonNull(GraphQLString) },
+                    email: { type: new GraphQLNonNull(GraphQLString) },
+                    password: { type: new GraphQLNonNull(GraphQLString) },
+                    isNurse: { type: new GraphQLNonNull(GraphQLBoolean) }
+                },
+                resolve: function (root, params, context) {
+                    const user = new User(params);
+                    const newUser = user.save();
+                    if (!user) {
+                        throw new Error('Error');
+                    }
+                    return newUser
+                }
             },
             // Tips mutation
             addTip: {
@@ -248,6 +267,7 @@ const mutation = new GraphQLObjectType({
                         .catch(err => next(err))
                 }
             },
+            // Vitals Mutation
             addVitalInformation: {
                 type: vitalInformation,
                 args: {

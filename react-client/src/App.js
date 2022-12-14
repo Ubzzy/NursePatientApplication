@@ -21,6 +21,7 @@ import EditTip from "./components/tips/EditTip";
 import DailyTip from "./components/tips/DailyTip";
 import VitalInformation from "./components/patients/VitalInformation";
 import Covid19 from "./components/patients/Covid19";
+import AddUser from "./components/users/AddUser";
 
 function App() {
     return (
@@ -37,6 +38,7 @@ function App() {
                     <Route path="/covid19" element={<Covid19 />}></Route>
 
                     <Route path="/nurse" element={<NurseDashboard />}></Route>
+                    <Route path="/add-user" element={<AddUser />}></Route>
 
                     <Route path="/tips" element={<ListTips />}></Route>
                     <Route path="/tips/details/:id" element={<TipDetails />}></Route>

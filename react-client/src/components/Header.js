@@ -44,11 +44,8 @@ function Header() {
                         <Nav.Link as={Link} to="/nurse-dashboard">
                             Dashboard
                         </Nav.Link>
-                        <Nav.Link as={Link} to="/tips">
-                            Tips
-                        </Nav.Link>
-                        <Nav.Link as={Link} to="/vital-information">
-                            Vital Information
+                        <Nav.Link as={Link} to="/add-user">
+                            Add User
                         </Nav.Link>
                     </>
                     }
