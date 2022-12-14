@@ -4,7 +4,7 @@ var mongoose = require("mongoose"),
 var vitalInformation = mongoose.Schema(
     {
         cp: {type: String, required: true},
-        user_id: {type: String, required: true},
+        user_id: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
         trestbps: {type: String, required: true},
         chol: {type: String, required: true},
         fps: {type: String, required: true},

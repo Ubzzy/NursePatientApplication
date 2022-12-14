@@ -316,7 +316,7 @@ const mutation = new GraphQLObjectType({
                         throw new Error('not Authorized')
                     }
 
-                    params.user_id = context.user._id;
+                    params.user_id = context.user;
                     const dailyInfo = new VitalInformation(params);
                     const newDailyInfo = dailyInfo.save();
                     if (!newDailyInfo) {
