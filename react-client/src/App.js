@@ -18,7 +18,7 @@ import ListTips from "./components/tips/ListTips";
 import TipDetails from "./components/tips/TipDetails";
 import AddTip from "./components/tips/AddTip";
 import EditTip from "./components/tips/EditTip";
-import DailyInformation from "./components/patients/DailyInformation";
+import VitalInformation from "./components/patients/VitalInformation";
 import AddPatient from "./components/nurse/AddPatient";
 import ListPatients from "./components/nurse/ListPatients";
 
@@ -31,7 +31,7 @@ function App() {
                     <Route path="/home" element={<Home/>}></Route>
                     <Route path="/dashboard" element={<Dashboard/>}></Route>
                     <Route path="/game-zone" element={<GameZone/>}></Route>
-                    <Route path="/daily-information" element={<DailyInformation/>}></Route>
+                    <Route path="/vital-information" element={<VitalInformation/>}></Route>
                     <Route path="/nurse" element={<NurseDashboard/>}></Route>
                     <Route path="/addPatient" element={<AddPatient />}></Route>
                     <Route path="/patients" element={<ListPatients />}></Route>

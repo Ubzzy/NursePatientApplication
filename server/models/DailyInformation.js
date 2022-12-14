@@ -1,7 +1,7 @@
 var mongoose = require("mongoose"),
     Schema = mongoose.Schema;
 
-var dailyInformation = mongoose.Schema(
+var vitalInformation = mongoose.Schema(
     {
         cp: {type: String, required: true},
         user_id: {type: String, required: true},
@@ -23,4 +23,4 @@ var dailyInformation = mongoose.Schema(
 );
 
 
-module.exports = mongoose.model("dailyInformation", dailyInformation);
+module.exports = mongoose.model("vitalInformation", vitalInformation);

@@ -14,7 +14,7 @@ const bcrypt = require("bcrypt");
 // Token sessions
 const jwt = require("jsonwebtoken");
 const {GraphQLBoolean} = require("graphql");
-const DailyInformation = require("../models/DailyInformation");
+const VitalInformation = require("../models/VitalInformation");
 
 const JWT_SECRET = process.env.SECRET_KEY;
 const jwtExpirySeconds = 600000; // 10mins
@@ -37,12 +37,12 @@ const patientType = new GraphQLObjectType({
     name: "patient",
     fields: function () {
         return {
-            _id: { type: GraphQLString },
-            bodyTemperature: { type: GraphQLString },
-            heartRate: { type: GraphQLString },
-            bloodPressure: { type: GraphQLString },
-            respiratoryRate: { type: GraphQLString },
-            token: { type: GraphQLString },
+            _id: {type: GraphQLString},
+            bodyTemperature: {type: GraphQLString},
+            heartRate: {type: GraphQLString},
+            bloodPressure: {type: GraphQLString},
+            respiratoryRate: {type: GraphQLString},
+            token: {type: GraphQLString},
         };
     },
 });
@@ -58,8 +58,8 @@ const tipType = new GraphQLObjectType({
 });
 
 
-const dailyInformation = new GraphQLObjectType({
-    name: "dailyInformation",
+const vitalInformation = new GraphQLObjectType({
+    name: "vitalInformation",
     fields: function () {
         return {
             _id: {type: GraphQLString},
@@ -193,13 +193,13 @@ const mutation = new GraphQLObjectType({
                     if (!user) {
                         throw new Error("Error - user not found");
                     }
-                    
+
                     console.log(user.password)
                     // check if the password is correct
                     if (bcrypt.compareSync(params.password, user.password) == false) {
                         throw new Error("Invalid password");
                     }
-                    
+
                     // sign the given payload (arguments of sign method) into a JSON Web Token
                     // and which expires 300 seconds after issue
                     const token = jwt.sign(
@@ -241,11 +241,11 @@ const mutation = new GraphQLObjectType({
             addPatient: {
                 type: patientType,
                 args: {
-                    patientId:{type: new GraphQLNonNull(GraphQLString) },
-                    bodyTemperature: { type: new GraphQLNonNull(GraphQLString) },
-                    heartRate: { type: new GraphQLNonNull(GraphQLString)},
-                    bloodPressure: { type: new GraphQLNonNull(GraphQLString) },
-                    respiratoryRate: { type: new GraphQLNonNull(GraphQLString)}
+                    patientId: {type: new GraphQLNonNull(GraphQLString)},
+                    bodyTemperature: {type: new GraphQLNonNull(GraphQLString)},
+                    heartRate: {type: new GraphQLNonNull(GraphQLString)},
+                    bloodPressure: {type: new GraphQLNonNull(GraphQLString)},
+                    respiratoryRate: {type: new GraphQLNonNull(GraphQLString)}
                 },
                 resolve: function (root, params, context) {
                     const patient = new Patient(params);
@@ -287,8 +287,8 @@ const mutation = new GraphQLObjectType({
                         .catch(err => next(err))
                 }
             },
-            addDailyInformation: {
-                type: dailyInformation,
+            addVitalInformation: {
+                type: vitalInformation,
                 args: {
                     cp: {type: GraphQLString},
                     user_id: {type: GraphQLString},
@@ -308,7 +308,9 @@ const mutation = new GraphQLObjectType({
                     if (!context.user || context.user.isNurse == false) {
                         throw new Error('not Authorized')
                     }
-                    const dailyInfo = new DailyInformation(params);
+
+                    params.user_id = context.user._id;
+                    const dailyInfo = new VitalInformation(params);
                     const newDailyInfo = dailyInfo.save();
                     if (!newDailyInfo) {
                         throw new Error('Error');

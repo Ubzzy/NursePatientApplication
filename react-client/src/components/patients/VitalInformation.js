@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 import {gql, useMutation} from '@apollo/client';
 
 const ADD_DAILY_INFORMATION = gql`
-    mutation AddDailyInformation(
+    mutation AddVitalInformation(
         $cp: String!,
         $trestbps: String!,
         $chol: String!,
@@ -18,7 +18,7 @@ const ADD_DAILY_INFORMATION = gql`
         $target: String!        
         
         ) {
-        addDailyInformation(
+        addVitalInformation(
             cp: $cp,
             trestbps: $trestbps,
             chol: $chol,
@@ -37,9 +37,9 @@ const ADD_DAILY_INFORMATION = gql`
     }
 `;
 
-function DailyInformation() {
+function VitalInformation() {
 
-    const [dailyInformation, setDailyInformation] = useState({
+    const [vitalInformation, setVitalInformation] = useState({
         cp: "",
         trestbps: "",
         chol: "",
@@ -53,23 +53,23 @@ function DailyInformation() {
         target: ""
     });
 
-    const [AddDailyInformation, {data, loading, error}] = useMutation(ADD_DAILY_INFORMATION);
+    const [AddVitalInformation, {data, loading, error}] = useMutation(ADD_DAILY_INFORMATION);
 
 
     const navigate = useNavigate();
 
     const onChange = (e) => {
         e.persist();
-        setDailyInformation({...dailyInformation, [e.target.name]: e.target.value});
+        setVitalInformation({...vitalInformation, [e.target.name]: e.target.value});
     };
 
-    async function saveDailyInformation() {
-        console.log(dailyInformation)
-        if (!dailyInformation.cp || !dailyInformation.trestbps) {
+    async function saveVitalInformation() {
+        console.log(vitalInformation)
+        if (!vitalInformation.cp || !vitalInformation.trestbps) {
             alert("Enter valid information");
             return;
         }
-        await AddDailyInformation({variables: dailyInformation})
+        await AddVitalInformation({variables: vitalInformation})
         backToDashboard();
     }
 
@@ -83,12 +83,12 @@ function DailyInformation() {
 
         
             <fieldset>
-                <h1 className="text-center m-5">Daily Information</h1>
+                <h1 className="text-center m-5">Vital Information</h1>
 
                 <div className="form-group">
                     <label className="col-md-12 control-label" htmlFor="cp">CP</label>
                     <div className="col-md-12">
-                        <input id="cp" name="cp" type="text" placeholder="" value={dailyInformation.cp} onChange={onChange}
+                        <input id="cp" name="cp" type="text" placeholder="" value={vitalInformation.cp} onChange={onChange}
                                className="form-control "/>
                     </div>
                 </div>
@@ -96,7 +96,7 @@ function DailyInformation() {
                 <div className="form-group">
                     <label className="col-md-12 control-label" htmlFor="trestbps">Tres BPS</label>
                     <div className="col-md-12">
-                        <input id="trestbps" name="trestbps" type="text" placeholder="" value={dailyInformation.trestbps} onChange={onChange}
+                        <input id="trestbps" name="trestbps" type="text" placeholder="" value={vitalInformation.trestbps} onChange={onChange}
                                className="form-control "/>
                     </div>
                 </div>
@@ -104,7 +104,7 @@ function DailyInformation() {
                 <div className="form-group">
                     <label className="col-md-12 control-label" htmlFor="chol">Chol</label>
                     <div className="col-md-12">
-                        <input id="chol" name="chol" type="text" placeholder="" value={dailyInformation.chol} onChange={onChange}
+                        <input id="chol" name="chol" type="text" placeholder="" value={vitalInformation.chol} onChange={onChange}
                                className="form-control "/>
                     </div>
                 </div>
@@ -112,7 +112,7 @@ function DailyInformation() {
                 <div className="form-group">
                     <label className="col-md-12 control-label" htmlFor="fps">Fps</label>
                     <div className="col-md-12">
-                        <input id="fps" name="fps" type="text" placeholder="" value={dailyInformation.fps} onChange={onChange}
+                        <input id="fps" name="fps" type="text" placeholder="" value={vitalInformation.fps} onChange={onChange}
                                className="form-control "/>
                     </div>
                 </div>
@@ -120,7 +120,7 @@ function DailyInformation() {
                 <div className="form-group">
                     <label className="col-md-12 control-label" htmlFor="restecg">restecg</label>
                     <div className="col-md-12">
-                        <input id="restecg" name="restecg" type="text" placeholder="" value={dailyInformation.restecg} onChange={onChange}
+                        <input id="restecg" name="restecg" type="text" placeholder="" value={vitalInformation.restecg} onChange={onChange}
                                className="form-control "/>
                     </div>
                 </div>
@@ -128,7 +128,7 @@ function DailyInformation() {
                 <div className="form-group">
                     <label className="col-md-12 control-label" htmlFor="thalch">thalch</label>
                     <div className="col-md-12">
-                        <input id="thalch" name="thalch" type="text" placeholder="" value={dailyInformation.thalch} onChange={onChange}
+                        <input id="thalch" name="thalch" type="text" placeholder="" value={vitalInformation.thalch} onChange={onChange}
                                className="form-control "/>
                     </div>
                 </div>
@@ -137,7 +137,7 @@ function DailyInformation() {
                 <div className="form-group">
                     <label className="col-md-12 control-label" htmlFor="exang">exang</label>
                     <div className="col-md-12">
-                        <input id="exang" name="exang" type="text" placeholder="" value={dailyInformation.exang} onChange={onChange}
+                        <input id="exang" name="exang" type="text" placeholder="" value={vitalInformation.exang} onChange={onChange}
                                className="form-control "/>
                     </div>
                 </div>
@@ -145,7 +145,7 @@ function DailyInformation() {
                 <div className="form-group">
                     <label className="col-md-12 control-label" htmlFor="oldpeak">oldpeak</label>
                     <div className="col-md-12">
-                        <input id="oldpeak" name="oldpeak" type="text" placeholder="" value={dailyInformation.oldpeak} onChange={onChange}
+                        <input id="oldpeak" name="oldpeak" type="text" placeholder="" value={vitalInformation.oldpeak} onChange={onChange}
                                className="form-control "/>
                     </div>
                 </div>
@@ -153,7 +153,7 @@ function DailyInformation() {
                 <div className="form-group">
                     <label className="col-md-12 control-label" htmlFor="slope">slope</label>
                     <div className="col-md-12">
-                        <input id="slope" name="slope" type="text" placeholder="" value={dailyInformation.slope} onChange={onChange}
+                        <input id="slope" name="slope" type="text" placeholder="" value={vitalInformation.slope} onChange={onChange}
                                className="form-control "/>
                     </div>
                 </div>
@@ -161,7 +161,7 @@ function DailyInformation() {
                 <div className="form-group">
                     <label className="col-md-12 control-label" htmlFor="thal">thal</label>
                     <div className="col-md-12">
-                        <input id="thal" name="thal" type="text" placeholder="" value={dailyInformation.thal} onChange={onChange}
+                        <input id="thal" name="thal" type="text" placeholder="" value={vitalInformation.thal} onChange={onChange}
                                className="form-control "/>
                     </div>
                 </div>
@@ -170,7 +170,7 @@ function DailyInformation() {
                 <div className="form-group">
                     <label className="col-md-12 control-label" htmlFor="target">target</label>
                     <div className="col-md-12">
-                        <input id="target" name="target" type="text" placeholder="" value={dailyInformation.target}
+                        <input id="target" name="target" type="text" placeholder="" value={vitalInformation.target}
                                onChange={onChange}
                                className="form-control "/>
                     </div>
@@ -178,7 +178,7 @@ function DailyInformation() {
 
 
                 <div className="form-group">
-                    <button type={"submit"} className={"btn btn-primary"} onClick={() => saveDailyInformation()}>submit</button>
+                    <button type={"submit"} className={"btn btn-primary"} onClick={() => saveVitalInformation()}>submit</button>
                 </div>
 
             </fieldset>
@@ -190,4 +190,4 @@ function DailyInformation() {
     </>);
 }
 
-export default DailyInformation;
+export default VitalInformation;
