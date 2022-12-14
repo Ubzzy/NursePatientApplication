@@ -64,6 +64,7 @@ function DailyInformation() {
     };
 
     async function saveDailyInformation() {
+        console.log(dailyInformation)
         if (!dailyInformation.cp || !dailyInformation.trestbps) {
             alert("Enter valid information");
             return;
@@ -80,15 +81,14 @@ function DailyInformation() {
     return (<>
         <Header/>
 
-
-        <form className="d-flex justify-content-around">
+        
             <fieldset>
                 <h1 className="text-center m-5">Daily Information</h1>
 
                 <div className="form-group">
                     <label className="col-md-12 control-label" htmlFor="cp">CP</label>
                     <div className="col-md-12">
-                        <input id="cp" name="cp" type="text" placeholder=""
+                        <input id="cp" name="cp" type="text" placeholder="" value={dailyInformation.cp} onChange={onChange}
                                className="form-control "/>
                     </div>
                 </div>
@@ -96,7 +96,7 @@ function DailyInformation() {
                 <div className="form-group">
                     <label className="col-md-12 control-label" htmlFor="trestbps">Tres BPS</label>
                     <div className="col-md-12">
-                        <input id="trestbps" name="trestbps" type="text" placeholder=""
+                        <input id="trestbps" name="trestbps" type="text" placeholder="" value={dailyInformation.trestbps} onChange={onChange}
                                className="form-control "/>
                     </div>
                 </div>
@@ -104,7 +104,7 @@ function DailyInformation() {
                 <div className="form-group">
                     <label className="col-md-12 control-label" htmlFor="chol">Chol</label>
                     <div className="col-md-12">
-                        <input id="chol" name="chol" type="text" placeholder=""
+                        <input id="chol" name="chol" type="text" placeholder="" value={dailyInformation.chol} onChange={onChange}
                                className="form-control "/>
                     </div>
                 </div>
@@ -112,7 +112,7 @@ function DailyInformation() {
                 <div className="form-group">
                     <label className="col-md-12 control-label" htmlFor="fps">Fps</label>
                     <div className="col-md-12">
-                        <input id="fps" name="fps" type="text" placeholder=""
+                        <input id="fps" name="fps" type="text" placeholder="" value={dailyInformation.fps} onChange={onChange}
                                className="form-control "/>
                     </div>
                 </div>
@@ -120,7 +120,7 @@ function DailyInformation() {
                 <div className="form-group">
                     <label className="col-md-12 control-label" htmlFor="restecg">restecg</label>
                     <div className="col-md-12">
-                        <input id="restecg" name="restecg" type="text" placeholder=""
+                        <input id="restecg" name="restecg" type="text" placeholder="" value={dailyInformation.restecg} onChange={onChange}
                                className="form-control "/>
                     </div>
                 </div>
@@ -128,7 +128,7 @@ function DailyInformation() {
                 <div className="form-group">
                     <label className="col-md-12 control-label" htmlFor="thalch">thalch</label>
                     <div className="col-md-12">
-                        <input id="thalch" name="thalch" type="text" placeholder=""
+                        <input id="thalch" name="thalch" type="text" placeholder="" value={dailyInformation.thalch} onChange={onChange}
                                className="form-control "/>
                     </div>
                 </div>
@@ -137,7 +137,7 @@ function DailyInformation() {
                 <div className="form-group">
                     <label className="col-md-12 control-label" htmlFor="exang">exang</label>
                     <div className="col-md-12">
-                        <input id="exang" name="exang" type="text" placeholder=""
+                        <input id="exang" name="exang" type="text" placeholder="" value={dailyInformation.exang} onChange={onChange}
                                className="form-control "/>
                     </div>
                 </div>
@@ -145,7 +145,7 @@ function DailyInformation() {
                 <div className="form-group">
                     <label className="col-md-12 control-label" htmlFor="oldpeak">oldpeak</label>
                     <div className="col-md-12">
-                        <input id="oldpeak" name="oldpeak" type="text" placeholder=""
+                        <input id="oldpeak" name="oldpeak" type="text" placeholder="" value={dailyInformation.oldpeak} onChange={onChange}
                                className="form-control "/>
                     </div>
                 </div>
@@ -153,7 +153,7 @@ function DailyInformation() {
                 <div className="form-group">
                     <label className="col-md-12 control-label" htmlFor="slope">slope</label>
                     <div className="col-md-12">
-                        <input id="slope" name="slope" type="text" placeholder=""
+                        <input id="slope" name="slope" type="text" placeholder="" value={dailyInformation.slope} onChange={onChange}
                                className="form-control "/>
                     </div>
                 </div>
@@ -161,7 +161,7 @@ function DailyInformation() {
                 <div className="form-group">
                     <label className="col-md-12 control-label" htmlFor="thal">thal</label>
                     <div className="col-md-12">
-                        <input id="thal" name="thal" type="text" placeholder=""
+                        <input id="thal" name="thal" type="text" placeholder="" value={dailyInformation.thal} onChange={onChange}
                                className="form-control "/>
                     </div>
                 </div>
@@ -170,20 +170,21 @@ function DailyInformation() {
                 <div className="form-group">
                     <label className="col-md-12 control-label" htmlFor="target">target</label>
                     <div className="col-md-12">
-                        <input id="target" name="target" type="text" placeholder=""
+                        <input id="target" name="target" type="text" placeholder="" value={dailyInformation.target}
+                               onChange={onChange}
                                className="form-control "/>
                     </div>
                 </div>
 
 
                 <div className="form-group">
-                    <button type={"submit"} className={"btn btn-primary"}>submit</button>
+                    <button type={"submit"} className={"btn btn-primary"} onClick={() => saveDailyInformation()}>submit</button>
                 </div>
 
             </fieldset>
 
 
-        </form>
+      
 
 
     </>);

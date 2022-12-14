@@ -251,7 +251,7 @@ const mutation = new GraphQLObjectType({
                 },
                 resolve: function (root, params, context) {
 
-                    if (!req.user || req.user.isNurse == false) {
+                    if (!context.user || context.user.isNurse == false) {
                         throw new Error('not Authorized')
                     }
                     const dailyInfo = new DailyInformation(params);
