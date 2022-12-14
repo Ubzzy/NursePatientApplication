@@ -33,7 +33,7 @@ function Header() {
 
     return (
         <Navbar bg="dark" variant="dark" expand="lg">
-            <Navbar.Brand href="home" className="ms-4">
+            <Navbar.Brand className="ms-4">
                 Centennial Collage Hospital
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav"/>
@@ -41,8 +41,8 @@ function Header() {
                 <Nav className="ms-auto me-4">
                     {/* Nurse  */}
                     {user && user.isNurse == true && <>
-                        <Nav.Link as={Link} to="/home">
-                            Home
+                        <Nav.Link as={Link} to="/nurse-dashboard">
+                            Dashboard
                         </Nav.Link>
                         <Nav.Link as={Link} to="/tips">
                             Tips
