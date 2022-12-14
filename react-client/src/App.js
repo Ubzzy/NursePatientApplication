@@ -18,6 +18,7 @@ import ListTips from "./components/tips/ListTips";
 import TipDetails from "./components/tips/TipDetails";
 import AddTip from "./components/tips/AddTip";
 import EditTip from "./components/tips/EditTip";
+import DailyTip from "./components/tips/DailyTip";
 import VitalInformation from "./components/patients/VitalInformation";
 import AddPatient from "./components/nurse/AddPatient";
 import ListPatients from "./components/nurse/ListPatients";
@@ -39,6 +40,7 @@ function App() {
                     <Route path="/tips/details/:id" element={<TipDetails/>}></Route>
                     <Route path="/tips/add" element={<AddTip/>}></Route>
                     <Route path="/tips/edit/:id" element={<EditTip/>}></Route>
+                    <Route path="/daily-tip" element={<DailyTip/>}></Route>
                 </Routes>
             </Router>
         </>
