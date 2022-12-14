@@ -5,6 +5,8 @@ var GraphQLNonNull = require('graphql').GraphQLNonNull;
 var GraphQLString = require('graphql').GraphQLString;
 var GraphQLInt = require('graphql').GraphQLInt;
 
+const moment = require('moment');
+
 // Mongoose model
 var User = require("../models/User");
 var Tip = require("../models/Tip");
@@ -63,8 +65,9 @@ const vitalInformation = new GraphQLObjectType({
     fields: function () {
         return {
             _id: {type: GraphQLString},
-            cp: {type: GraphQLString},
             user_id: {type: GraphQLString},
+            date: {type: GraphQLString},
+            cp: {type: GraphQLString},
             trestbps: {type: GraphQLString},
             chol: {type: GraphQLString},
             fps: {type: GraphQLString},
@@ -161,6 +164,16 @@ const queryType = new GraphQLObjectType({
                     }
                     return tip;
                 },
+            },
+            records: {
+                type: new GraphQLList(vitalInformation),
+                resolve: function (root, params, context) {
+                    if (!context.user || context.user.isNurse === true) {
+                        throw new Error('not Authorized')
+                    }
+
+                    return VitalInformation.find({user_id: context.user._id});
+                }
             },
             //
         };
@@ -310,12 +323,11 @@ const mutation = new GraphQLObjectType({
                     target: {type: GraphQLString}
                 },
                 resolve: async function (root, params, context) {
-
-                    console.log(context.user)
                     if (!context.user || context.user.isNurse == true) {
                         throw new Error('not Authorized')
                     }
 
+                    params.recordDate = moment().format("DD-MM-YYYY");
                     params.user_id = context.user;
                     const dailyInfo = new VitalInformation(params);
                     const newDailyInfo = dailyInfo.save();
@@ -325,7 +337,6 @@ const mutation = new GraphQLObjectType({
                     return newDailyInfo
                 }
             }
-
         };
     },
 });

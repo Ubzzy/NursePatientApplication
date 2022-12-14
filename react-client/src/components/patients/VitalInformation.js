@@ -140,7 +140,7 @@ function VitalInformation() {
                 </div>
 
                 <div className="form-group mb-3">
-                    <label className="col-md-12 control-label" htmlFor="slope">slope</label>
+                    <label className="col-md-12 control-label" htmlFor="slope">Slope</label>
                     <div className="col-md-12">
                         <input id="slope" name="slope" type="text" placeholder="" value={vitalInformation.slope} onChange={onChange} className="form-control "/>
                     </div>
