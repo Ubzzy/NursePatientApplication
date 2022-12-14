@@ -13,7 +13,8 @@ var Tip = require("../models/Tip");
 const bcrypt = require("bcrypt");
 // Token sessions
 const jwt = require("jsonwebtoken");
-const { GraphQLBoolean } = require("graphql");
+const {GraphQLBoolean} = require("graphql");
+const DailyInformation = require("../../react-client/src/components/patients/DailyInformation");
 const JWT_SECRET = process.env.SECRET_KEY;
 const jwtExpirySeconds = 600000; // 10mins
 
@@ -21,13 +22,13 @@ const userType = new GraphQLObjectType({
     name: "user",
     fields: function () {
         return {
-            _id: { type: GraphQLString },
-            firstName: { type: GraphQLString },
-            lastName: { type: GraphQLString },
-            email: { type: GraphQLString },
-            password: { type: GraphQLString },
-            isNurse: { type: GraphQLBoolean },
-            token: { type: GraphQLString },
+            _id: {type: GraphQLString},
+            firstName: {type: GraphQLString},
+            lastName: {type: GraphQLString},
+            email: {type: GraphQLString},
+            password: {type: GraphQLString},
+            isNurse: {type: GraphQLBoolean},
+            token: {type: GraphQLString},
         };
     },
 });
@@ -35,12 +36,35 @@ const tipType = new GraphQLObjectType({
     name: "tip",
     fields: function () {
         return {
-            _id: { type: GraphQLString },
-            message: { type: GraphQLString },
-            createdBy: { type: GraphQLString }
+            _id: {type: GraphQLString},
+            message: {type: GraphQLString},
+            createdBy: {type: GraphQLString}
         };
     },
 });
+
+
+const dailyInformation = new GraphQLObjectType({
+    name: "dailyInformation",
+    fields: function () {
+        return {
+            _id: {type: GraphQLString},
+            cp: {type: GraphQLString},
+            user_id: {type: GraphQLString},
+            trestbps: {type: GraphQLString},
+            chol: {type: GraphQLString},
+            fps: {type: GraphQLString},
+            restecg: {type: GraphQLString},
+            thalch: {type: GraphQLString},
+            exang: {type: GraphQLString},
+            oldpeak: {type: GraphQLString},
+            slope: {type: GraphQLString},
+            thal: {type: GraphQLString},
+            target: {type: GraphQLString}
+        };
+    },
+});
+
 
 const queryType = new GraphQLObjectType({
     name: "Query",
@@ -147,7 +171,7 @@ const mutation = new GraphQLObjectType({
                             email: user.email,
                         },
                         JWT_SECRET,
-                        { algorithm: "HS256", expiresIn: jwtExpirySeconds }
+                        {algorithm: "HS256", expiresIn: jwtExpirySeconds}
                     );
                     console.log("registered token:", token);
 
@@ -165,8 +189,8 @@ const mutation = new GraphQLObjectType({
             addTip: {
                 type: tipType,
                 args: {
-                    message: { type: new GraphQLNonNull(GraphQLString) },
-                    createdBy: { type: new GraphQLNonNull(GraphQLString) }
+                    message: {type: new GraphQLNonNull(GraphQLString)},
+                    createdBy: {type: new GraphQLNonNull(GraphQLString)}
                 },
                 resolve: function (root, params, context) {
                     const tip = new Tip(params);
@@ -195,9 +219,9 @@ const mutation = new GraphQLObjectType({
             updateTip: {
                 type: tipType,
                 args: {
-                    _id: { name: '_id', type: new GraphQLNonNull(GraphQLString) },
-                    message: { type: new GraphQLNonNull(GraphQLString) },
-                    createdBy: { type: new GraphQLNonNull(GraphQLString) }
+                    _id: {name: '_id', type: new GraphQLNonNull(GraphQLString)},
+                    message: {type: new GraphQLNonNull(GraphQLString)},
+                    createdBy: {type: new GraphQLNonNull(GraphQLString)}
 
                 },
                 resolve(root, params) {
@@ -208,8 +232,34 @@ const mutation = new GraphQLObjectType({
                         .catch(err => next(err))
                 }
             },
+            addDailyInformation: {
+                type: dailyInformation,
+                args: {
+                    cp: {type: GraphQLString},
+                    user_id: {type: GraphQLString},
+                    trestbps: {type: GraphQLString},
+                    chol: {type: GraphQLString},
+                    fps: {type: GraphQLString},
+                    restecg: {type: GraphQLString},
+                    thalch: {type: GraphQLString},
+                    exang: {type: GraphQLString},
+                    oldpeak: {type: GraphQLString},
+                    slope: {type: GraphQLString},
+                    thal: {type: GraphQLString},
+                    target: {type: GraphQLString}
+                },
+                resolve: function (root, params, context) {
+                    const dailyInfo = new DailyInformation(params);
+                    const newDailyInfo = dailyInfo.save();
+                    if (!newDailyInfo) {
+                        throw new Error('Error');
+                    }
+                    return newDailyInfo
+                }
+            }
+
         };
     },
 });
 
-module.exports = new GraphQLSchema({ query: queryType, mutation: mutation });
+module.exports = new GraphQLSchema({query: queryType, mutation: mutation});

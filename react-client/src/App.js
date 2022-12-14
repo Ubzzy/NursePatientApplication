@@ -18,21 +18,23 @@ import ListTips from "./components/tips/ListTips";
 import TipDetails from "./components/tips/TipDetails";
 import AddTip from "./components/tips/AddTip";
 import EditTip from "./components/tips/EditTip";
+import DailyInformation from "./components/patients/DailyInformation";
 
 function App() {
     return (
         <>
             <Router>
                 <Routes>
-                    <Route path="/" element={<Login />}></Route>
-                    <Route path="/home" element={<Home />}></Route>
-                    <Route path="/dashboard" element={<Dashboard />}></Route>
-                    <Route path="/game-zone" element={<GameZone />}></Route>
-                    <Route path="/nurse" element={<NurseDashboard />}></Route>
-                    <Route path="/tips" element={<ListTips />}></Route>
-                    <Route path="/tips/details/:id" element={<TipDetails />}></Route>
-                    <Route path="/tips/add" element={<AddTip />}></Route>
-                    <Route path="/tips/edit/:id" element={<EditTip />}></Route>
+                    <Route path="/" element={<Login/>}></Route>
+                    <Route path="/home" element={<Home/>}></Route>
+                    <Route path="/dashboard" element={<Dashboard/>}></Route>
+                    <Route path="/game-zone" element={<GameZone/>}></Route>
+                    <Route path="/daily-information" element={<DailyInformation/>}></Route>
+                    <Route path="/nurse" element={<NurseDashboard/>}></Route>
+                    <Route path="/tips" element={<ListTips/>}></Route>
+                    <Route path="/tips/details/:id" element={<TipDetails/>}></Route>
+                    <Route path="/tips/add" element={<AddTip/>}></Route>
+                    <Route path="/tips/edit/:id" element={<EditTip/>}></Route>
                 </Routes>
             </Router>
         </>
