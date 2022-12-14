@@ -34,7 +34,7 @@ function Header() {
         window.localStorage.clear();
         navigate("/");
     }
-    
+
     return (
         <Navbar bg="dark" variant="dark" expand="lg">
             <Navbar.Brand href="home" className="ms-4">
