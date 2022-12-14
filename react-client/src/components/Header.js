@@ -9,14 +9,15 @@ import Nav from "react-bootstrap/Nav";
 function Header() {
 
     const navigate = useNavigate();
-    
-    
+    const [user, setUser] = useState()
+
     //check if the user already logged-in
     const readCookie = async () => {
-        
+
         console.log('--- in readCookie function ---');
-        const user = JSON.parse(window.localStorage.getItem("user"));
-        if (!user) {
+        const userData = JSON.parse(window.localStorage.getItem("user"));
+        setUser(userData)
+        if (!userData) {
             navigate("/");
         }
     };
@@ -33,7 +34,7 @@ function Header() {
         window.localStorage.clear();
         navigate("/");
     }
-
+    
     return (
         <Navbar bg="dark" variant="dark" expand="lg">
             <Navbar.Brand href="home" className="ms-4">
@@ -42,15 +43,28 @@ function Header() {
             <Navbar.Toggle aria-controls="basic-navbar-nav"/>
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ms-auto me-4">
-                    <Nav.Link as={Link} to="/home">
-                        Home
-                    </Nav.Link>
-                    <Nav.Link as={Link} to="/game-zone">
-                        Game Zone
-                    </Nav.Link>
-                    <Nav.Link as={Link} to="/tips">
-                        Tips
-                    </Nav.Link>
+                    {user && user.isNurse == true && <>
+                        <Nav.Link as={Link} to="/home">
+                            Home
+                        </Nav.Link>
+                        <Nav.Link as={Link} to="/tips">
+                            Tips
+                        </Nav.Link>
+                    </>
+                    }
+                    {user && user.isNurse == false && <>
+                        <Nav.Link as={Link} to="/dashboard">
+                            Home
+                        </Nav.Link>
+                        <Nav.Link as={Link} to="/game-zone">
+                            Game Zone
+                        </Nav.Link>
+                        <Nav.Link as={Link} to="/daily-information">
+                            Daily Information
+                        </Nav.Link>
+                    </>
+                    }
+
                     <button className="btn btn-secondary" onClick={() => logout()}>
                         logout
                     </button>
