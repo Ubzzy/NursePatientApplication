@@ -52,17 +52,17 @@ function Login() {
         console.log("calling authenticateUser");
 
         try {
-            await loginUser({
+            let loginData = await loginUser({
                 variables: {
                     email: email,
                     password: password,
                 },
             });
 
-            if (loginData) {
-                window.localStorage.setItem("user", JSON.stringify(loginData.loginUser));
-                console.log(loginData.loginUser)
-                if (loginData.loginUser.isNurse) {
+            if (loginData.data) {
+                window.localStorage.setItem("user", JSON.stringify(loginData.data.loginUser));
+                console.log(loginData.data.loginUser)
+                if (loginData.data.loginUser.isNurse) {
                     navigate("/home");
                 } else {
                     navigate("/dashboard");

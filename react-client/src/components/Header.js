@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
 
 // Bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -7,51 +7,39 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 
 function Header() {
-    /*     
-        state variable for the screen, admin or user
-        const [screen, setScreen] = useState('auth');
 
-        //check if the user already logged-in
-        const readCookie = async () => {
-            try {
-                console.log('--- in readCookie function ---');
+    const navigate = useNavigate();
+    
+    
+    //check if the user already logged-in
+    const readCookie = async () => {
+        
+        console.log('--- in readCookie function ---');
+        const user = JSON.parse(window.localStorage.getItem("user"));
+        if (!user) {
+            navigate("/");
+        }
+    };
 
-                //
-                const res = await axios.get('/read_cookie');
-                //
-                if (res.data.screen !== undefined) {
-                    setScreen(res.data.screen);
-                    console.log(res.data.screen)
-                }
-            } catch (e) {
-                setScreen('auth');
-                console.log(e.response.data);
-            }
-        };
 
-        const logout = async () => {
-            try {
-                await axios.get('/signout');
-                setScreen('auth');
-                redirect('/')
-            } catch (e) {
-                console.log(e);
-            }
-        };
+    //runs the first time the view is rendered
+    //to check if user is signed in
+    useEffect(() => {
+        readCookie();
+    }, []); //only the first render 
 
-        //runs the first time the view is rendered
-        //to check if user is signed in
-        useEffect(() => {
-            readCookie();
-        }, []); //only the first render 
-    */
+
+    function logout() {
+        window.localStorage.clear();
+        navigate("/");
+    }
 
     return (
         <Navbar bg="dark" variant="dark" expand="lg">
             <Navbar.Brand href="home" className="ms-4">
                 Centennial Collage Hospital
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Toggle aria-controls="basic-navbar-nav"/>
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ms-auto me-4">
                     <Nav.Link as={Link} to="/home">
@@ -63,9 +51,9 @@ function Header() {
                     <Nav.Link as={Link} to="/tips">
                         Tips
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/">
-                        Logout
-                    </Nav.Link>
+                    <button className="btn btn-secondary" onClick={() => logout()}>
+                        logout
+                    </button>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>

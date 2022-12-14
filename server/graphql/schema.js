@@ -154,16 +154,13 @@ const mutation = new GraphQLObjectType({
                     if (!user) {
                         throw new Error("Error - user not found");
                     }
+                    
+                    console.log(user.password)
                     // check if the password is correct
-                    bcrypt.compare(params.password, user.password, (err, result) => {
-                        if (err) {
-                            throw err;
-                        } else if (!result) {
-                            console.log("Password doesn't match!");
-                        } else {
-                            console.log("Password matches!");
-                        }
-                    });
+                    if (bcrypt.compareSync(params.password, user.password) == false) {
+                        throw new Error("Invalid password");
+                    }
+                    
                     // sign the given payload (arguments of sign method) into a JSON Web Token
                     // and which expires 300 seconds after issue
                     const token = jwt.sign(
