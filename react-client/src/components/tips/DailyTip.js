@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { gql, useQuery } from "@apollo/client";
+import React, {useState, useEffect} from 'react'
+import {gql, useQuery} from "@apollo/client";
 
 import Header from "../Header";
 
@@ -22,35 +22,44 @@ function DailyTip() {
     const [tip, setTip] = useState('')
 
     // Hook to get data using apollo's useQuery
-    const { loading: tipsLoading, error: tipsError, data: tipsData, refetch } = useQuery(GET_TIPS)    
+    const {loading: tipsLoading, error: tipsError, data: tipsData, refetch} = useQuery(GET_TIPS)
 
     // Select random tip from DB
     const setRandomTip = () => {
         console.log(tips)
         const length = tips.length
-        let randomTip = tips[Math.floor(Math.random()*length)]
+        let randomTip = tips[Math.floor(Math.random() * length)]
         setTip(randomTip?.message)
         console.log("tip: " + JSON.stringify(randomTip))
         console.log("tip: " + randomTip?.message)
-        
+
     }
 
     // Fetch and store tips on initial load
     useEffect(() => {
-        refetch()
-        if (tipsData) {
-            setTips(tipsData.tips)
-            console.log(tips)
-        }
-    }, [tipsData])
+        refetch().then((result) => {
+                if (result.data) {
+                    setTips(result.data.tips)
+                }
+            })
 
-    if (tipsLoading) { return <p>Loading Tips...</p> }
-    if (tipsError) { return <p>Error Loading Tips: ${tipsError.message}</p> }
+    }, [])
+
+    useEffect(() => {
+        setRandomTip()
+    }, [tips]);
+
+    if (tipsLoading) {
+        return <p>Loading Tips...</p>
+    }
+    if (tipsError) {
+        return <p>Error Loading Tips: ${tipsError.message}</p>
+    }
 
     // Return table of tips
     return (
         <>
-            <Header />
+            <Header/>
             <h1 className='text-center m-2'>Tip Of The Day</h1>
             <h2 className='text-center m-5'>{tip}</h2>
         </>
