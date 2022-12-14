@@ -14,7 +14,8 @@ const bcrypt = require("bcrypt");
 // Token sessions
 const jwt = require("jsonwebtoken");
 const {GraphQLBoolean} = require("graphql");
-const DailyInformation = require("../../react-client/src/components/patients/DailyInformation");
+const DailyInformation = require("../models/DailyInformation");
+
 const JWT_SECRET = process.env.SECRET_KEY;
 const jwtExpirySeconds = 600000; // 10mins
 
@@ -249,6 +250,10 @@ const mutation = new GraphQLObjectType({
                     target: {type: GraphQLString}
                 },
                 resolve: function (root, params, context) {
+
+                    if (!req.user || req.user.isNurse == false) {
+                        throw new Error('not Authorized')
+                    }
                     const dailyInfo = new DailyInformation(params);
                     const newDailyInfo = dailyInfo.save();
                     if (!newDailyInfo) {

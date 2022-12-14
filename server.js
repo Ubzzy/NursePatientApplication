@@ -24,6 +24,9 @@ app.use(cors(corsOptions));
 
 //configure GraphQL to use over HTTP
 //app.use('*', cors());
+const {authorization} = require("./server/graphql/auth");
+app.use(authorization);
+
 app.use(
     "/graphql",
     graphqlHTTP((request, response) => {
