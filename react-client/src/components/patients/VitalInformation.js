@@ -55,7 +55,6 @@ function VitalInformation() {
 
     const [AddVitalInformation, {data, loading, error}] = useMutation(ADD_DAILY_INFORMATION);
 
-
     const navigate = useNavigate();
 
     const onChange = (e) => {
@@ -77,116 +76,98 @@ function VitalInformation() {
         navigate("/dashboard");
     }
 
-
     return (<>
         <Header/>
 
-        
+        <div className="container">
             <fieldset>
-                <h1 className="text-center m-5">Vital Information</h1>
+                <h1 className="text-center m-5">Add Your Vital Information</h1>
 
-                <div className="form-group">
-                    <label className="col-md-12 control-label" htmlFor="cp">CP</label>
+                <div className="form-group mb-3">
+                    <label className="col-md-12 control-label" htmlFor="cp">Chest Pain</label>
                     <div className="col-md-12">
-                        <input id="cp" name="cp" type="text" placeholder="" value={vitalInformation.cp} onChange={onChange}
-                               className="form-control "/>
+                        <input id="cp" name="cp" type="text" placeholder="" value={vitalInformation.cp} onChange={onChange} className="form-control "/>
                     </div>
                 </div>
 
-                <div className="form-group">
+                <div className="form-group mb-3">
                     <label className="col-md-12 control-label" htmlFor="trestbps">Tres BPS</label>
                     <div className="col-md-12">
-                        <input id="trestbps" name="trestbps" type="text" placeholder="" value={vitalInformation.trestbps} onChange={onChange}
-                               className="form-control "/>
+                        <input id="trestbps" name="trestbps" type="text" placeholder="" value={vitalInformation.trestbps} onChange={onChange} className="form-control "/>
                     </div>
                 </div>
 
-                <div className="form-group">
-                    <label className="col-md-12 control-label" htmlFor="chol">Chol</label>
+                <div className="form-group mb-3">
+                    <label className="col-md-12 control-label" htmlFor="chol">Cholesterol(mg)</label>
                     <div className="col-md-12">
-                        <input id="chol" name="chol" type="text" placeholder="" value={vitalInformation.chol} onChange={onChange}
-                               className="form-control "/>
+                        <input id="chol" name="chol" type="text" placeholder="" value={vitalInformation.chol} onChange={onChange} className="form-control "/>
                     </div>
                 </div>
 
-                <div className="form-group">
-                    <label className="col-md-12 control-label" htmlFor="fps">Fps</label>
+                <div className="form-group mb-3">
+                    <label className="col-md-12 control-label" htmlFor="fps">Fasting Blood Sugar</label>
                     <div className="col-md-12">
-                        <input id="fps" name="fps" type="text" placeholder="" value={vitalInformation.fps} onChange={onChange}
-                               className="form-control "/>
+                        <input id="fps" name="fps" type="text" placeholder="" value={vitalInformation.fps} onChange={onChange} className="form-control "/>
                     </div>
                 </div>
 
-                <div className="form-group">
-                    <label className="col-md-12 control-label" htmlFor="restecg">restecg</label>
+                <div className="form-group mb-3">
+                    <label className="col-md-12 control-label" htmlFor="restecg">Rest ECG</label>
                     <div className="col-md-12">
-                        <input id="restecg" name="restecg" type="text" placeholder="" value={vitalInformation.restecg} onChange={onChange}
-                               className="form-control "/>
+                        <input id="restecg" name="restecg" type="text" placeholder="" value={vitalInformation.restecg} onChange={onChange} className="form-control "/>
                     </div>
                 </div>
 
-                <div className="form-group">
-                    <label className="col-md-12 control-label" htmlFor="thalch">thalch</label>
+                <div className="form-group mb-3">
+                    <label className="col-md-12 control-label" htmlFor="thalch">Heart Rate Achieved</label>
                     <div className="col-md-12">
-                        <input id="thalch" name="thalch" type="text" placeholder="" value={vitalInformation.thalch} onChange={onChange}
-                               className="form-control "/>
+                        <input id="thalch" name="thalch" type="text" placeholder="" value={vitalInformation.thalch} onChange={onChange} className="form-control "/>
                     </div>
                 </div>
 
-
-                <div className="form-group">
-                    <label className="col-md-12 control-label" htmlFor="exang">exang</label>
+                <div className="form-group mb-3">
+                    <label className="col-md-12 control-label" htmlFor="exang">Exang</label>
                     <div className="col-md-12">
-                        <input id="exang" name="exang" type="text" placeholder="" value={vitalInformation.exang} onChange={onChange}
-                               className="form-control "/>
+                        <input id="exang" name="exang" type="text" placeholder="" value={vitalInformation.exang} onChange={onChange} className="form-control "/>
                     </div>
                 </div>
 
-                <div className="form-group">
-                    <label className="col-md-12 control-label" htmlFor="oldpeak">oldpeak</label>
+                <div className="form-group mb-3">
+                    <label className="col-md-12 control-label" htmlFor="oldpeak">Exercise Relative To Rest</label>
                     <div className="col-md-12">
-                        <input id="oldpeak" name="oldpeak" type="text" placeholder="" value={vitalInformation.oldpeak} onChange={onChange}
-                               className="form-control "/>
+                        <input id="oldpeak" name="oldpeak" type="text" placeholder="" value={vitalInformation.oldpeak} onChange={onChange} className="form-control "/>
                     </div>
                 </div>
 
-                <div className="form-group">
+                <div className="form-group mb-3">
                     <label className="col-md-12 control-label" htmlFor="slope">slope</label>
                     <div className="col-md-12">
-                        <input id="slope" name="slope" type="text" placeholder="" value={vitalInformation.slope} onChange={onChange}
-                               className="form-control "/>
+                        <input id="slope" name="slope" type="text" placeholder="" value={vitalInformation.slope} onChange={onChange} className="form-control "/>
                     </div>
                 </div>
 
-                <div className="form-group">
-                    <label className="col-md-12 control-label" htmlFor="thal">thal</label>
+                <div className="form-group mb-3">
+                    <label className="col-md-12 control-label" htmlFor="thal">The Slope of the Peak Exercise</label>
                     <div className="col-md-12">
-                        <input id="thal" name="thal" type="text" placeholder="" value={vitalInformation.thal} onChange={onChange}
-                               className="form-control "/>
+                        <input id="thal" name="thal" type="text" placeholder="" value={vitalInformation.thal} onChange={onChange} className="form-control "/>
                     </div>
                 </div>
 
 
-                <div className="form-group">
-                    <label className="col-md-12 control-label" htmlFor="target">target</label>
+                <div className="form-group mb-3">
+                    <label className="col-md-12 control-label" htmlFor="target">Target</label>
                     <div className="col-md-12">
-                        <input id="target" name="target" type="text" placeholder="" value={vitalInformation.target}
-                               onChange={onChange}
-                               className="form-control "/>
+                        <input id="target" name="target" type="text" placeholder="" value={vitalInformation.target} onChange={onChange} className="form-control "/>
                     </div>
                 </div>
 
-
-                <div className="form-group">
-                    <button type={"submit"} className={"btn btn-primary"} onClick={() => saveVitalInformation()}>submit</button>
+                <div className="form-group mb-3">
+                    <button type={"submit"} className={"btn btn-primary"} onClick={() => saveVitalInformation()}>Submit</button>
                 </div>
 
             </fieldset>
 
-
-      
-
-
+        </div>
     </>);
 }
 

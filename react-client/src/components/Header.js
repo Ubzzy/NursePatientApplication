@@ -13,8 +13,6 @@ function Header() {
 
     //check if the user already logged-in
     const readCookie = async () => {
-
-        console.log('--- in readCookie function ---');
         const userData = JSON.parse(window.localStorage.getItem("user"));
         setUser(userData)
         if (!userData) {
@@ -22,13 +20,11 @@ function Header() {
         }
     };
 
-
     //runs the first time the view is rendered
     //to check if user is signed in
     useEffect(() => {
         readCookie();
     }, []); //only the first render 
-
 
     function logout() {
         window.localStorage.clear();
@@ -43,6 +39,7 @@ function Header() {
             <Navbar.Toggle aria-controls="basic-navbar-nav"/>
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ms-auto me-4">
+                    {/* Nurse  */}
                     {user && user.isNurse == true && <>
                         <Nav.Link as={Link} to="/home">
                             Home
@@ -52,9 +49,10 @@ function Header() {
                         </Nav.Link>
                     </>
                     }
+                    {/* Patient */}
                     {user && user.isNurse == false && <>
                         <Nav.Link as={Link} to="/dashboard">
-                            Home
+                            Dashboard
                         </Nav.Link>
                         <Nav.Link as={Link} to="/daily-tip">
                             Daily Tip
