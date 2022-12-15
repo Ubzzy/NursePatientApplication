@@ -57,9 +57,6 @@ function Header() {
                         <Nav.Link as={Link} to="/daily-tip">
                             Daily Tip
                         </Nav.Link>
-                        <Nav.Link as={Link} to="/alerts">
-                            Emergency Alert
-                        </Nav.Link>
                         <Nav.Link as={Link} to="/game-zone">
                             Game Zone
                         </Nav.Link>
@@ -70,7 +67,7 @@ function Header() {
                     }
 
                     <button className="btn btn-secondary" onClick={() => logout()}>
-                        logout
+                        Logout
                     </button>
                 </Nav>
             </Navbar.Collapse>

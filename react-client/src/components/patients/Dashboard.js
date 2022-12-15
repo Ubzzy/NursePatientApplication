@@ -1,15 +1,14 @@
 import React, {useEffect, useState} from "react";
 import Header from "../Header";
 import {useNavigate} from "react-router-dom";
-import {gql, useQuery} from "@apollo/client";
+import {gql, useLazyQuery, useQuery} from "@apollo/client";
 
 const GET_PATIENT_RECORDS = gql`
     query getPatientVitalRecords {
         records {
             _id
             cp
-            user_id
-            date
+            userId
             trestbps
             chol
             fps
@@ -20,16 +19,29 @@ const GET_PATIENT_RECORDS = gql`
             slope
             thal
             target
+            recordDate
         }
     }
 `;
+
+const ADD_ALERT = gql`
+    query addAlert {
+        addAlert {
+            _id
+            userId
+            status
+            attendedBy
+            alertedOn
+        }
+    }
+`
 
 function Dashboard() {
     const navigate = useNavigate();
     const [user, setUser] = useState();
     const [records, setRecords] = useState();
-    const {loading: tipsLoading, error: tipsError, data: tipsData, refetch} = useQuery(GET_PATIENT_RECORDS)
-
+    const {loading: tipsLoading, error: tipsError, data: tipsData, refetch} = useQuery(GET_PATIENT_RECORDS);
+    const [saveAlert, {loading: alertLoading, error: alertError, data: saveAlertData}] = useLazyQuery(ADD_ALERT);
 
     //check if the user already logged-in
     const readCookie = async () => {
@@ -44,12 +56,19 @@ function Dashboard() {
         navigate("/" + link);
     }
 
+    function sendAlertToNurse() {
+        saveAlert().then(result => {
+            alert("Nurse alerted!")
+        });
+    }
+
     useEffect(() => {
         readCookie();
         refetch().then(result => {
             setRecords(result.data.records);
         });
     }, []); //only the first render 
+
     return (
         <>
             <Header/> {
@@ -98,6 +117,18 @@ function Dashboard() {
                             height: "120px",
                             width: "200px",
                             marginRight: "10px",
+                            backgroundColor: "indianred"
+                        }} onClick={() => {
+                            sendAlertToNurse()
+                        }}>
+                            <div className="card-body">
+                                <h5 className="card-title">In Trouble! Call our nurse.</h5>
+                            </div>
+                        </div>
+                        <div className="card" style={{
+                            height: "120px",
+                            width: "200px",
+                            marginRight: "10px",
                             backgroundColor: "lightsalmon"
                         }} onClick={() => openLink("game-zone")}>
                             <div className="card-body">
@@ -122,7 +153,7 @@ function Dashboard() {
                                 <tr key={item._id}>
                                     <td>{index + 1}</td>
                                     <td>{item.recordDate}</td>
-                                    <td>{item.chol}</td>
+                                    <td>{item.cp}</td>
                                     <td>{item.fps}</td>
                                     <td>{item.restecg}</td>
                                 </tr>

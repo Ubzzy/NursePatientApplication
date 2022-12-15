@@ -38,6 +38,7 @@ const userType = new GraphQLObjectType({
         };
     },
 });
+
 const tipType = new GraphQLObjectType({
     name: "tip",
     fields: function () {
@@ -61,15 +62,18 @@ const covid19Type = new GraphQLObjectType({
         };
     },
 });
+
 const alertType = new GraphQLObjectType({
     name: "alert",
     fields: function () {
         return {
             _id: {type: GraphQLString},
-            patientId:{type: GraphQLString},
+            userId:{type: GraphQLString},
+            userName:{type: GraphQLString},
             status: {type: GraphQLString},
             attendedBy: {type: GraphQLString},
-            alertedOn: {type: GraphQLString}
+            alertedOn: {type: GraphQLString},
+            resolvedOn: {type: GraphQLString},
         };
     },
 });
@@ -79,8 +83,8 @@ const vitalInformation = new GraphQLObjectType({
     fields: function () {
         return {
             _id: { type: GraphQLString },
-            user_id: { type: GraphQLString },
-            date: { type: GraphQLString },
+            userId: { type: GraphQLString },
+            recordDate: { type: GraphQLString },
             cp: { type: GraphQLString },
             trestbps: { type: GraphQLString },
             chol: { type: GraphQLString },
@@ -153,34 +157,6 @@ const queryType = new GraphQLObjectType({
                     return tip;
                 },
             },
-            
-            alerts: {
-                type: new GraphQLList(alertType),
-                resolve: function () {
-                    const alerts = Alert.find()
-                    if (!alerts) {
-                        throw new Error('Alerts not found')
-                    }
-                    return alerts
-                }
-            },
-            alert: {
-                type: alertType,
-                args: {
-                    id: {
-                        name: "_id",
-                        type: GraphQLString,
-                    },
-                },
-                resolve: function (root, params) {
-                    const alert = Alert.findById(params.id).exec();
-                    if (!alert) {
-                        throw new Error("Error");
-                    }
-                    return alert;
-                },
-            },
-            
             records: {
                 type: new GraphQLList(vitalInformation),
                 resolve: function (root, params, context) {
@@ -188,10 +164,37 @@ const queryType = new GraphQLObjectType({
                         throw new Error('not Authorized')
                     }
 
-                    return VitalInformation.find({ user_id: context.user._id });
+                    return VitalInformation.find({ userId: context.user._id });
                 }
             },
-            //
+            alerts: {
+                type: new GraphQLList(alertType),
+                resolve: function () {
+                    const alerts = Alert.find({status: "open"})
+                    if (!alerts) {
+                        throw new Error('Alerts not found')
+                    }
+                    return alerts
+                }
+            },
+            addAlert: {
+                type: alertType,
+                resolve: async function (root, params, context) {
+                    params.userId = context.user;
+                    let alert = new Alert({ status: "open", userName: context.user.firstName + " " + context.user.lastName, alertedOn: moment().format("DD-MM-YYYY hh:mm A"), userId: context.user })
+                    let newAlert = await alert.save()
+                    if (!newAlert) {
+                        throw new Error('Error');
+                    }
+                    return newAlert;
+                }
+            },
+            patients:  {
+                type: new GraphQLList(userType),
+                resolve: async function (root, params, context) {
+                    return User.find({isNurse: false});
+                }
+            }
         };
     },
 });
@@ -324,60 +327,17 @@ const mutation = new GraphQLObjectType({
                         .catch(err => next(err))
                 }
             },
-            addAlert: {
-                type: alertType,
-                args: {
-                    patientId: {type:GraphQLString},
-                    status: {type: GraphQLString},
-                    attendedBy: {type: GraphQLString},
-                    alertedOn: {type: GraphQLString}
-                },
-                resolve: function (root, params, context) {
-                   /* const tip = new Tip(params);
-                    const newTip = tip.save();
-                    if (!tip) {
-                        throw new Error('Error');
-                    }
-                    return tip*/
-                   
-                  //  params.recordDate = moment().format("DD-MM-YYYY");
-                    params.user_id = context.user;
-                 
-                }
-            },
-            deleteAlert: {
-                type: alertType,
-                args: {
-                    id: {
-                        type: new GraphQLNonNull(GraphQLString)
-                    }
-                },
-                resolve(root, params) {
-                    const deleteAlert = Tip.findByIdAndRemove(params.id).exec();
-                    if (!deleteAlert) {
-                        throw new Error('Error while deleting alert from DB')
-                    }
-                    return deleteAlert;
-                }
-            },
             updateAlert: {
                 type: alertType,
                 args: {
                     _id: {name: '_id', type: new GraphQLNonNull(GraphQLString)},
-                    patientId: {type: new GraphQLNonNull(GraphQLString)},
-                    status: {type: new GraphQLNonNull(GraphQLString)},
-                    attendedBy: {type: new GraphQLNonNull(GraphQLString)},
-                    alertedOn: {type: new GraphQLNonNull(GraphQLString)}
-
                 },
-                resolve(root, params) {
+                resolve(root, params, context) {
                     return Alert.findByIdAndUpdate(params._id, {
-                        patinetId: params.patientId,
-                        status: params.status,
-                        attendedBy: params.attendedBy,
-                        alertedOn: params.alertedOn,
-                    }).then(console.log("Alert updated: " + params._id))
-                        .catch(err => next(err))
+                        status: "resolved",
+                        attendedBy: context.user,
+                        resolvedOn: moment().format("DD-MM-YYYY hh:mm A")
+                    }).then().catch(err => next(err))
                 }
             },
             // Vitals Mutation
@@ -385,7 +345,7 @@ const mutation = new GraphQLObjectType({
                 type: vitalInformation,
                 args: {
                     cp: { type: GraphQLString },
-                    user_id: { type: GraphQLString },
+                    userId: { type: GraphQLString },
                     trestbps: { type: GraphQLString },
                     chol: { type: GraphQLString },
                     fps: { type: GraphQLString },
@@ -398,12 +358,8 @@ const mutation = new GraphQLObjectType({
                     target: { type: GraphQLString }
                 },
                 resolve: async function (root, params, context) {
-                    if (!context.user == true) { // || context.user.isNurse 
-                        throw new Error('not Authorized')
-                    }
-
                     params.recordDate = moment().format("DD-MM-YYYY");
-                    params.user_id = context.user;
+                    
                     const dailyInfo = new VitalInformation(params);
                     const newDailyInfo = dailyInfo.save();
                     if (!newDailyInfo) {

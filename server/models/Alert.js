@@ -2,10 +2,12 @@ var mongoose = require("mongoose");
 
 var AlertSchema = mongoose.Schema(
     {
-        patientId: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
+        userId: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
+        userName: { type: String, required: true },
         status: { type: String, required: true },
         attendedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-        alertedOn: { type: String, required: true }
+        alertedOn: { type: String, required: true },
+        resolvedOn: { type: String  }
     },
     {
         collection: "alerts",
