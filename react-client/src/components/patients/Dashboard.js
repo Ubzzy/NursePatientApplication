@@ -88,6 +88,16 @@ function Dashboard() {
                             height: "120px",
                             width: "200px",
                             marginRight: "10px",
+                            backgroundColor: "khaki"
+                        }} onClick={() => openLink("covid19")}>
+                            <div className="card-body">
+                                <h5 className="card-title">Submit your Covid Symptoms</h5>
+                            </div>
+                        </div>
+                        <div className="card" style={{
+                            height: "120px",
+                            width: "200px",
+                            marginRight: "10px",
                             backgroundColor: "lightsalmon"
                         }} onClick={() => openLink("game-zone")}>
                             <div className="card-body">
