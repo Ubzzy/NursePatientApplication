@@ -10,8 +10,17 @@ const moment = require('moment');
 // Mongoose model
 var User = require("../models/User");
 var Tip = require("../models/Tip");
+<<<<<<< Updated upstream
 var Covid19 = require("../models/Covid19");
 const VitalInformation = require("../models/VitalInformation");
+=======
+<<<<<<< HEAD
+var Alert = require("../models/Alert");
+=======
+var Covid19 = require("../models/Covid19");
+const VitalInformation = require("../models/VitalInformation");
+>>>>>>> 1deef6e398580d969ce479f739c6b86ef7e2a759
+>>>>>>> Stashed changes
 // Hashing password
 const bcrypt = require("bcrypt");
 // Token sessions
@@ -42,6 +51,22 @@ const tipType = new GraphQLObjectType({
             _id: { type: GraphQLString },
             message: { type: GraphQLString },
             createdBy: { type: GraphQLString }
+<<<<<<< Updated upstream
+        };
+    },
+});
+
+const covid19Type = new GraphQLObjectType({
+    name: "covid19",
+    fields: function () {
+        return {
+            _id: { type: GraphQLString },
+            firstName: { type: GraphQLString },
+            lastName: { type: GraphQLString },
+            symptoms: { type: GraphQLString },
+            submittedOn: { type: GraphQLString }
+=======
+>>>>>>> Stashed changes
         };
     },
 });
@@ -58,7 +83,18 @@ const covid19Type = new GraphQLObjectType({
         };
     },
 });
-
+const alertType = new GraphQLObjectType({
+    name: "alert",
+    fields: function () {
+        return {
+            _id: {type: GraphQLString},
+            patientId:{type: GraphQLString},
+            status: {type: GraphQLString},
+            attendedBy: {type: GraphQLString},
+            alertedOn: {type: GraphQLString}
+        };
+    },
+});
 
 const vitalInformation = new GraphQLObjectType({
     name: "vitalInformation",
@@ -139,6 +175,34 @@ const queryType = new GraphQLObjectType({
                     return tip;
                 },
             },
+            
+            alerts: {
+                type: new GraphQLList(alertType),
+                resolve: function () {
+                    const alerts = Alert.find()
+                    if (!alerts) {
+                        throw new Error('Alerts not found')
+                    }
+                    return alerts
+                }
+            },
+            alert: {
+                type: alertType,
+                args: {
+                    id: {
+                        name: "_id",
+                        type: GraphQLString,
+                    },
+                },
+                resolve: function (root, params) {
+                    const alert = Alert.findById(params.id).exec();
+                    if (!alert) {
+                        throw new Error("Error");
+                    }
+                    return alert;
+                },
+            },
+            
             records: {
                 type: new GraphQLList(vitalInformation),
                 resolve: function (root, params, context) {
@@ -250,6 +314,7 @@ const mutation = new GraphQLObjectType({
                     return tip
                 }
             },
+            
             deleteTip: {
                 type: tipType,
                 args: {
@@ -278,6 +343,62 @@ const mutation = new GraphQLObjectType({
                         message: params.message,
                         createdBy: params.createdBy
                     }).then(console.log("Tip updated: " + params._id))
+                        .catch(err => next(err))
+                }
+            },
+            addAlert: {
+                type: alertType,
+                args: {
+                    patientId: {type:GraphQLString},
+                    status: {type: GraphQLString},
+                    attendedBy: {type: GraphQLString},
+                    alertedOn: {type: GraphQLString}
+                },
+                resolve: function (root, params, context) {
+                   /* const tip = new Tip(params);
+                    const newTip = tip.save();
+                    if (!tip) {
+                        throw new Error('Error');
+                    }
+                    return tip*/
+                   
+                  //  params.recordDate = moment().format("DD-MM-YYYY");
+                    params.user_id = context.user;
+                 
+                }
+            },
+            deleteAlert: {
+                type: alertType,
+                args: {
+                    id: {
+                        type: new GraphQLNonNull(GraphQLString)
+                    }
+                },
+                resolve(root, params) {
+                    const deleteAlert = Tip.findByIdAndRemove(params.id).exec();
+                    if (!deleteAlert) {
+                        throw new Error('Error while deleting alert from DB')
+                    }
+                    return deleteAlert;
+                }
+            },
+            updateAlert: {
+                type: alertType,
+                args: {
+                    _id: {name: '_id', type: new GraphQLNonNull(GraphQLString)},
+                    patientId: {type: new GraphQLNonNull(GraphQLString)},
+                    status: {type: new GraphQLNonNull(GraphQLString)},
+                    attendedBy: {type: new GraphQLNonNull(GraphQLString)},
+                    alertedOn: {type: new GraphQLNonNull(GraphQLString)}
+
+                },
+                resolve(root, params) {
+                    return Alert.findByIdAndUpdate(params._id, {
+                        patinetId: params.patientId,
+                        status: params.status,
+                        attendedBy: params.attendedBy,
+                        alertedOn: params.alertedOn,
+                    }).then(console.log("Alert updated: " + params._id))
                         .catch(err => next(err))
                 }
             },

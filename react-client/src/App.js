@@ -18,10 +18,16 @@ import ListTips from "./components/tips/ListTips";
 import TipDetails from "./components/tips/TipDetails";
 import AddTip from "./components/tips/AddTip";
 import EditTip from "./components/tips/EditTip";
+
+
 import DailyTip from "./components/tips/DailyTip";
 import VitalInformation from "./components/patients/VitalInformation";
 import Covid19 from "./components/patients/Covid19";
 import AddUser from "./components/users/AddUser";
+import ListAlerts from "./components/emergencyAlert/ListAlerts";
+import AlertDetails from "./components/emergencyAlert/AlertDetails";
+import AddAlert from "./components/emergencyAlert/AddAlert";
+import EditAlert from "./components/emergencyAlert/EditAlert";
 
 function App() {
     return (
@@ -45,6 +51,11 @@ function App() {
                     <Route path="/tips/add" element={<AddTip />}></Route>
                     <Route path="/tips/edit/:id" element={<EditTip />}></Route>
                     <Route path="/daily-tip" element={<DailyTip />}></Route>
+
+                    <Route path="/alerts" element={<ListAlerts />}></Route>
+                    <Route path="/alerts/details/:id" element={<AlertDetails />}></Route>
+                    <Route path="/alerts/add" element={<AddAlert />}></Route>
+                    <Route path="/alerts/edit/:id" element={<EditAlert />}></Route>
                 </Routes>
             </Router>
         </>
