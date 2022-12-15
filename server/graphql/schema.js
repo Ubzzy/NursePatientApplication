@@ -10,17 +10,11 @@ const moment = require('moment');
 // Mongoose model
 var User = require("../models/User");
 var Tip = require("../models/Tip");
-<<<<<<< Updated upstream
-var Covid19 = require("../models/Covid19");
-const VitalInformation = require("../models/VitalInformation");
-=======
-<<<<<<< HEAD
+
 var Alert = require("../models/Alert");
-=======
 var Covid19 = require("../models/Covid19");
 const VitalInformation = require("../models/VitalInformation");
->>>>>>> 1deef6e398580d969ce479f739c6b86ef7e2a759
->>>>>>> Stashed changes
+
 // Hashing password
 const bcrypt = require("bcrypt");
 // Token sessions
@@ -51,22 +45,6 @@ const tipType = new GraphQLObjectType({
             _id: { type: GraphQLString },
             message: { type: GraphQLString },
             createdBy: { type: GraphQLString }
-<<<<<<< Updated upstream
-        };
-    },
-});
-
-const covid19Type = new GraphQLObjectType({
-    name: "covid19",
-    fields: function () {
-        return {
-            _id: { type: GraphQLString },
-            firstName: { type: GraphQLString },
-            lastName: { type: GraphQLString },
-            symptoms: { type: GraphQLString },
-            submittedOn: { type: GraphQLString }
-=======
->>>>>>> Stashed changes
         };
     },
 });
