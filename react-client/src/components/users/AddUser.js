@@ -94,12 +94,11 @@ function AddUser() {
                     />
                 </Form.Group>
 
-                <Button variant="danger" className='w-25 me-5 ms-5' onClick={cancel}>
-                    Cancel
-                </Button>
-
-                <Button variant="success" type="submit" className='w-50'>
+                <Button variant="success"  className='me-2' type="submit">
                     Add User
+                </Button>
+                <Button variant="danger" onClick={cancel}>
+                    Cancel
                 </Button>
             </Form>
         </>

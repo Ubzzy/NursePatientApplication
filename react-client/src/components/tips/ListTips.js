@@ -34,10 +34,6 @@ function ListTips() {
             setTips(tipsData.tips)
         }
     }, [tipsData])
-
-    if (tipsLoading) { return <p>Loading Tips...</p> }
-    if (tipsError) { return <p>Error Loading Tips: ${tipsError.message}</p> }
-
     // Navigation Routes
     const tipDetails = (id) => { navigate('/tips/details/' + id) }
     const addTip = () => { navigate('/tips/add') }
@@ -48,7 +44,7 @@ function ListTips() {
             <Header />
             <h1 className='text-center m-2'>List of all tips</h1>
             <div className='m-5'>
-                <Button variant="primary" className='w-25 mb-2' onClick={addTip}>
+                <Button variant="primary" className='mb-2' onClick={addTip}>
                     Add Tip
                 </Button>
                 <Table className='table' hover>

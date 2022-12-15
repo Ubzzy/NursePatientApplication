@@ -63,13 +63,11 @@ function AddTip() {
                     <Form.Label>Created By</Form.Label>
                     <Form.Control type="text" name="createdBy" id="createdBy" placeholder="Enter your Name" required value={tip.createdBy} onChange={onChange} />
                 </Form.Group>
-
-                <Button variant="danger" className='w-25 me-5 ms-5' onClick={cancel}>
-                    Cancel
-                </Button>
-
-                <Button variant="success" type="submit" className='w-50'>
+                <Button variant="success"  className='me-2' type="submit">
                     Add Tip
+                </Button>
+                <Button variant="danger" onClick={cancel}>
+                    Cancel
                 </Button>
             </Form>
         </>

@@ -76,12 +76,11 @@ function TipDetails() {
                 <div><b>Message:</b> {tip.message}</div>
                 <div><b>Created By:</b> {tip.createdBy}</div>
 
-                <Button className="btn btn-danger m-3" onClick={() => { deleteAndRedirect(tip._id) }}>
-                    Delete
-                </Button>
-
                 <Button className="btn btn-success m-3" onClick={() => { editTip(tip._id) }}>
                     Edit Tip
+                </Button>
+                <Button className="btn btn-danger m-3" onClick={() => { deleteAndRedirect(tip._id) }}>
+                    Delete
                 </Button>
             </div>
         </>
