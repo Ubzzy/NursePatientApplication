@@ -41,7 +41,8 @@ module.exports = function () {
     });
 
     //configure GraphQL to use over HTTP
-    app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+    // app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+    app.use('*', cors());
 
     const {authorization} = require("../graphql/auth");
     app.use(authorization);
