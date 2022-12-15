@@ -64,7 +64,7 @@ function Login() {
                 window.localStorage.setItem("token", loginData.data.loginUser.token);
                 console.log(loginData.data.loginUser)
                 if (loginData.data.loginUser.isNurse) {
-                    navigate("/home");
+                    navigate("/nurse-dashboard");
                 } else {
                     navigate("/dashboard");
                 }

@@ -81,7 +81,7 @@ function VitalInformation() {
 
         <div className="container">
             <fieldset>
-                <h1 className="text-center m-5">Add Your Vital Information</h1>
+                <h1 className="text-center m-5">Add Vital Information</h1>
 
                 <div className="form-group mb-3">
                     <label className="col-md-12 control-label" htmlFor="cp">Chest Pain</label>
@@ -140,7 +140,7 @@ function VitalInformation() {
                 </div>
 
                 <div className="form-group mb-3">
-                    <label className="col-md-12 control-label" htmlFor="slope">slope</label>
+                    <label className="col-md-12 control-label" htmlFor="slope">Slope</label>
                     <div className="col-md-12">
                         <input id="slope" name="slope" type="text" placeholder="" value={vitalInformation.slope} onChange={onChange} className="form-control "/>
                     </div>
