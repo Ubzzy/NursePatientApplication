@@ -10,12 +10,13 @@ const moment = require('moment');
 // Mongoose model
 var User = require("../models/User");
 var Tip = require("../models/Tip");
+var Covid19 = require("../models/Covid19");
+const VitalInformation = require("../models/VitalInformation");
 // Hashing password
 const bcrypt = require("bcrypt");
 // Token sessions
 const jwt = require("jsonwebtoken");
-const {GraphQLBoolean} = require("graphql");
-const VitalInformation = require("../models/VitalInformation");
+const { GraphQLBoolean } = require("graphql");
 
 const JWT_SECRET = process.env.SECRET_KEY;
 const jwtExpirySeconds = 600000; // 10mins
@@ -24,13 +25,13 @@ const userType = new GraphQLObjectType({
     name: "user",
     fields: function () {
         return {
-            _id: {type: GraphQLString},
-            firstName: {type: GraphQLString},
-            lastName: {type: GraphQLString},
-            email: {type: GraphQLString},
-            password: {type: GraphQLString},
-            isNurse: {type: GraphQLBoolean},
-            token: {type: GraphQLString},
+            _id: { type: GraphQLString },
+            firstName: { type: GraphQLString },
+            lastName: { type: GraphQLString },
+            email: { type: GraphQLString },
+            password: { type: GraphQLString },
+            isNurse: { type: GraphQLBoolean },
+            token: { type: GraphQLString },
         };
     },
 });
@@ -38,9 +39,22 @@ const tipType = new GraphQLObjectType({
     name: "tip",
     fields: function () {
         return {
-            _id: {type: GraphQLString},
-            message: {type: GraphQLString},
-            createdBy: {type: GraphQLString}
+            _id: { type: GraphQLString },
+            message: { type: GraphQLString },
+            createdBy: { type: GraphQLString }
+        };
+    },
+});
+
+const covid19Type = new GraphQLObjectType({
+    name: "covid19",
+    fields: function () {
+        return {
+            _id: { type: GraphQLString },
+            firstName: { type: GraphQLString },
+            lastName: { type: GraphQLString },
+            symptoms: { type: GraphQLString },
+            submittedOn: { type: GraphQLString }
         };
     },
 });
@@ -50,20 +64,20 @@ const vitalInformation = new GraphQLObjectType({
     name: "vitalInformation",
     fields: function () {
         return {
-            _id: {type: GraphQLString},
-            user_id: {type: GraphQLString},
-            date: {type: GraphQLString},
-            cp: {type: GraphQLString},
-            trestbps: {type: GraphQLString},
-            chol: {type: GraphQLString},
-            fps: {type: GraphQLString},
-            restecg: {type: GraphQLString},
-            thalch: {type: GraphQLString},
-            exang: {type: GraphQLString},
-            oldpeak: {type: GraphQLString},
-            slope: {type: GraphQLString},
-            thal: {type: GraphQLString},
-            target: {type: GraphQLString}
+            _id: { type: GraphQLString },
+            user_id: { type: GraphQLString },
+            date: { type: GraphQLString },
+            cp: { type: GraphQLString },
+            trestbps: { type: GraphQLString },
+            chol: { type: GraphQLString },
+            fps: { type: GraphQLString },
+            restecg: { type: GraphQLString },
+            thalch: { type: GraphQLString },
+            exang: { type: GraphQLString },
+            oldpeak: { type: GraphQLString },
+            slope: { type: GraphQLString },
+            thal: { type: GraphQLString },
+            target: { type: GraphQLString }
         };
     },
 });
@@ -132,7 +146,7 @@ const queryType = new GraphQLObjectType({
                         throw new Error('not Authorized')
                     }
 
-                    return VitalInformation.find({user_id: context.user._id});
+                    return VitalInformation.find({ user_id: context.user._id });
                 }
             },
             //
@@ -180,7 +194,7 @@ const mutation = new GraphQLObjectType({
                             email: user.email,
                         },
                         JWT_SECRET,
-                        {algorithm: "HS256", expiresIn: jwtExpirySeconds}
+                        { algorithm: "HS256", expiresIn: jwtExpirySeconds }
                     );
                     console.log("registered token:", token);
 
@@ -200,7 +214,7 @@ const mutation = new GraphQLObjectType({
                     //context.res.status(200).send({ screen: user.username });
                     return userObj;
                 }, //end of resolver function
-            }, 
+            },
             // users mutation
             addUser: {
                 type: userType,
@@ -224,8 +238,8 @@ const mutation = new GraphQLObjectType({
             addTip: {
                 type: tipType,
                 args: {
-                    message: {type: new GraphQLNonNull(GraphQLString)},
-                    createdBy: {type: new GraphQLNonNull(GraphQLString)}
+                    message: { type: new GraphQLNonNull(GraphQLString) },
+                    createdBy: { type: new GraphQLNonNull(GraphQLString) }
                 },
                 resolve: function (root, params, context) {
                     const tip = new Tip(params);
@@ -254,9 +268,9 @@ const mutation = new GraphQLObjectType({
             updateTip: {
                 type: tipType,
                 args: {
-                    _id: {name: '_id', type: new GraphQLNonNull(GraphQLString)},
-                    message: {type: new GraphQLNonNull(GraphQLString)},
-                    createdBy: {type: new GraphQLNonNull(GraphQLString)}
+                    _id: { name: '_id', type: new GraphQLNonNull(GraphQLString) },
+                    message: { type: new GraphQLNonNull(GraphQLString) },
+                    createdBy: { type: new GraphQLNonNull(GraphQLString) }
 
                 },
                 resolve(root, params) {
@@ -271,21 +285,21 @@ const mutation = new GraphQLObjectType({
             addVitalInformation: {
                 type: vitalInformation,
                 args: {
-                    cp: {type: GraphQLString},
-                    user_id: {type: GraphQLString},
-                    trestbps: {type: GraphQLString},
-                    chol: {type: GraphQLString},
-                    fps: {type: GraphQLString},
-                    restecg: {type: GraphQLString},
-                    thalch: {type: GraphQLString},
-                    exang: {type: GraphQLString},
-                    oldpeak: {type: GraphQLString},
-                    slope: {type: GraphQLString},
-                    thal: {type: GraphQLString},
-                    target: {type: GraphQLString}
+                    cp: { type: GraphQLString },
+                    user_id: { type: GraphQLString },
+                    trestbps: { type: GraphQLString },
+                    chol: { type: GraphQLString },
+                    fps: { type: GraphQLString },
+                    restecg: { type: GraphQLString },
+                    thalch: { type: GraphQLString },
+                    exang: { type: GraphQLString },
+                    oldpeak: { type: GraphQLString },
+                    slope: { type: GraphQLString },
+                    thal: { type: GraphQLString },
+                    target: { type: GraphQLString }
                 },
                 resolve: async function (root, params, context) {
-                    if (!context.user || context.user.isNurse == true) {
+                    if (!context.user == true) { // || context.user.isNurse 
                         throw new Error('not Authorized')
                     }
 
@@ -298,9 +312,29 @@ const mutation = new GraphQLObjectType({
                     }
                     return newDailyInfo
                 }
+            },
+            //Covid19 Mutations
+            addCovid19: {
+                type: covid19Type,
+                args: {
+                    firstName: { type: GraphQLString },
+                    lastName: { type: GraphQLString },
+                    symptoms: { type: new GraphQLList(GraphQLString) },
+                    submittedOn: { type: GraphQLString }
+                },
+                resolve: async function (root, params, context) {
+                    params.subittedOn = moment().format("DD-MM-YYYY");
+                    const Coivd19 = new Covid19(params);
+                    const newCovid19 = Coivd19.save();
+                    if (!newCovid19) {
+                        throw new Error('Error');
+                    }
+                    return newCovid19
+                }
             }
+
         };
     },
 });
 
-module.exports = new GraphQLSchema({query: queryType, mutation: mutation});
+module.exports = new GraphQLSchema({ query: queryType, mutation: mutation });
